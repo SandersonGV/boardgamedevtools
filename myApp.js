@@ -18,6 +18,9 @@ var myApp = new Vue({
     methods: {
         getBoardgames:function(){
 
+        },
+        login:function(){
+            self.location.href = "dashboard.html";
         }
     },
   });

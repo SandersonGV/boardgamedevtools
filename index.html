@@ -29,10 +29,10 @@
                             </div>
                             <div class="form-group">
                                 <label for="remember-me" class=""><span>Remember me</span> <span><input id="remember-me" name="remember-me" type="checkbox"></span></label><br>
-                                <input type="button" name="submit" class="btn btn-info btn-md" value="submit">
+                                <input type="button" name="submit" @click="login" class="btn btn-info btn-md" value="submit">
                             </div>
-                            <div id="register-link"  class="text-right ">
-                                <a href="#" class="btn btn-info btn-sm" >Register here</a>
+                            <div id="register-link"  class="text-right " hidden>
+                                <a  class="btn btn-info btn-sm" >Register here</a>
                             </div>
                         </div>
                     </div>
@@ -41,6 +41,7 @@
         </div>
     </div>
 </body>
+
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script src="myApp.js"></script>
 
