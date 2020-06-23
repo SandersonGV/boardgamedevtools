@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Boardgame Dev Tools</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="login.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+    <div id="app">
+        <h3 class="text-center text-white pt-5">Boardgame Dev tools</h3>
+        <div class="container">
+            <div id="inner" >
+                <div id="login-column" >
+                    <div id="login-box" class="col-md-12">
+                        <div id="login-form" class="form" >
+                            <h3 class="text-center ">Login</h3>
+                            <div class="form-group">
+                                <label for="username" class="">Username:</label><br>
+                                <input type="text" name="username" id="username" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="">Password:</label><br>
+                                <input type="password" name="password" id="password" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="remember-me" class=""><span>Remember me</span> <span><input id="remember-me" name="remember-me" type="checkbox"></span></label><br>
+                                <input type="button" name="submit" class="btn btn-info btn-md" value="submit">
+                            </div>
+                            <div id="register-link"  class="text-right ">
+                                <a href="#" class="btn btn-info btn-sm" >Register here</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="myApp.js"></script>
+
+</html>

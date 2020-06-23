@@ -1,0 +1,9 @@
+#inner {
+  width: 50%;
+  margin: 0 auto;
+}
+
+#login-box{
+  background-color: darkcyan;
+  color: white;
+}
