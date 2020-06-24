@@ -62,7 +62,6 @@ class Boardgame {
         this.imagens.splice(index, 1);
     }
 }
-
 class Componente {
     constructor() {
         this.tipo = "";
@@ -70,9 +69,66 @@ class Componente {
         this.tamanho = "";
     }
 }
-
 class imagem {
     constructor() {
         this.url = "";
+    }
+}
+
+class Partida{
+    constructor() {
+        this._id = "";
+        this.boardgameID= "";
+        this.duracao =0;
+        this.data = date();
+        this.quantidadejogadores = 1;
+        this.tipo = "";
+        this.oquefoitestado="";
+        this.observasao ="";
+        this.quemganhou = 1;
+        this.feedbacks=[];
+        
+    }
+
+    loadJson(item){
+        this._id = item._id;
+        this.boardgameID= item.boardgameID;
+        this.duracao =item.duracao;
+        this.data = item.data;
+        this.quantidadejogadores = item.quantidadejogadores;
+        this.tipo = item.tipo;
+        this.oquefoitestado=item.oquefoitestado;
+        this.observasao =item.observasao;
+        this.quemganhou = item.quemganhou;
+        this.feedbacks=item.feedback;
+    }
+
+    addFeedback() {
+        this.feedbacks.push(new Feedback());
+    }
+
+    dropFeedback(index) {
+        this.feedbacks.splice(index, 1);
+    }
+  
+}
+
+class Feedback{
+    constructor() {
+        this.nomejogador= "";
+        this.genero= "";
+        this.pontuacao= 0;
+        this.idade= 0;
+        this.email= "";
+        this.mediverti= 0;
+        this.gosteidaduracao= 0;
+        this.regrasficaramclaras= 0;
+        this.jogooriginal= 0;
+        this.jogobemestrategico= 0;
+        this.jogarianovamente= 0;
+        this.comprariaojogo= 0;
+        this.oquemenosgostou= "";
+        this.oquemaisgostou= "";
+        this.observasao= "";
     }
 }

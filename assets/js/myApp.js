@@ -153,7 +153,10 @@ var myApp = new Vue({
             this.saveSession('auth',null);
             this.saveSession('boardgames',null);
             sessionStorage.clear();
-            self.location.href = "index.html";
+            self.location.href = "/";
+        },
+        signup:function(){
+
         },
         getItems: async function () {
             let url = 'https://boardgamelibrary-36a8.restdb.io/rest/boardgames';
