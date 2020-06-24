@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Boardgame Dev Tools</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/geral.css">
+</head>
+
+<body>
+    <div id="app">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light static-top mb-5 shadow">
+            <div class="container">
+                <a class="navbar-brand" href="#!"><i class="fas fa-box"></i>Boardgame dev tools</a>
+
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item ">
+                            <a class="nav-link" href="dashboard.html">
+                                <i class="fas fa-columns"></i> Home
+                            </a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="boardgames.html">
+                                <i class="fas fa-stream"></i> Boardgames
+
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="perfil.html">
+                                <i class="fas fa-user"></i> Meu Perfil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href=";" @click="logout">
+                                <i class="fas fa-sign-out-alt"></i> Sair
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Page Content -->
+        <div class="container">
+            <div class="card border-0 shadow my-5">
+                <div class="card-body p-5">
+                    <h1 class="font-weight-light">Boardgames</h1>
+
+                    <nav class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#!" data-toggle="modal" data-target="#myModal"
+                                    v-on:click="novoBoardgame">
+                                    <i class="far fa-lightbulb"></i> Novo
+                                </a>
+
+                            </li>
+                            <li class="nav-item">
+                                <input id="fileInput" type="file" accept=".txt" style="display:none;"
+                                    v-on:change="getFile" />
+                                <a class="nav-link" href="#!" onclick="document.getElementById('fileInput').click();">
+                                    <i class="far fa-folder-open"></i> Abrir
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#!" v-on:click="download(boardgames,'boardgame')">
+                                    <i class="fas fa-download"></i> Salvar
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div class="form-inline float-right">
+                            <input class="form-control mr-sm-2" type="search" placeholder="Buscar pelo titulo"
+                                aria-label="Search" v-on:keyup="filterBoardgame">
+                        </div>
+                    </nav>
+
+                    <div>{{titulo}}: {{boardgames.length}}</div>
+                    <div class="accordion" id="boardgameList">
+
+                        <div class="card mt-3 mb-3 shadow " v-for="(boardgame,index) in boardgames">
+                            <div class="card-header">
+                                <div class="d-flex">
+                                    <div class="flex-grow-1 ">
+                                        <button class="btn w-100 text-left" type="button" data-toggle="collapse"
+                                            v-bind:data-target="'#collapse'+index" aria-expanded="true"
+                                            aria-controls="collapseOne">
+                                            {{boardgame.titulo}} ({{boardgame.ano}})
+                                        </button>
+                                    </div>
+                                    <div class="p-1">
+                                        <button class="btn btn-info btn-sm "
+                                            v-on:click="editBoardgame(index)" data-toggle="modal"
+                                            data-target="#myModal"><i class="fas fa-pen"></i></button>
+                                    </div>
+                                    <div class="p-1">
+                                        <button class="btn btn-danger btn-sm "
+                                            v-on:click="if(confirm('excluir jogo?')){dropBoardgame(index)}"><i
+                                                class="fas fa-trash"></i></button>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div v-bind:id="'collapse'+index" class="collapse" aria-labelledby="headingOne">
+                                <div class="card-body">
+                                    <div class="row border p-2 m-2">
+                                        <div class="col-md-2">
+                                            <div v-if="boardgame.capaURL!=''">
+                                                <img v-bind:src="boardgame.capaURL" height="150px" @error="imgError">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div><strong>Autores</strong>: {{boardgame.autores}}</div>
+                                            <div><strong>Artistas</strong>: {{boardgame.artista}}</div>
+                                            <div><strong>Editora</strong>: {{boardgame.editora}} </div>
+                                            <div><strong>Número de jogadores</strong>: {{boardgame.jogadoresDe}} a
+                                                {{boardgame.jogadoresAte}}</div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div><strong>Tempo medio</strong>: {{boardgame.duracaoMedia}} minutos</div>
+                                            <div><strong>Idade minima</strong>: {{boardgame.idadeMinima}} anos</div>
+                                            <div><strong>Possui dependencia de idioma</strong>:
+                                                {{boardgame.dependenciaIdioma}}
+                                            </div>
+                                            <div v-if="boardgame.manualURL!=''"><strong>Link para o manual</strong>: <a
+                                                    v-bind:href="boardgame.manualURL" target="_blank"><i
+                                                        class="fas fa-book"></i>
+                                                    Manual</a></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row border p-2 m-2">
+                                        <div class="col">
+                                            <strong>Descrição</strong>: {{boardgame.descricao}}<br>
+                                        </div>
+                                    </div>
+                                    <div class="row border p-2 m-2">
+                                        <div class="col">
+                                            <div><strong>Componentes</strong>:</div>
+                                            <div v-for="componente in boardgame.componentes">
+                                                Qtd: {{componente.quantidade}} - {{componente.tipo}} -
+                                                {{componente.tamanho}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row border p-2 m-2">
+                                        <div class="col">
+                                            <div><strong>Tabletopia</strong></div>
+                                            <div><strong>Email de aceso</strong>: {{boardgame.tabletopiaEmail}}</div>
+                                            <div><strong>Senha de aceso</strong>: {{boardgame.tabletopiaSenha}}</div>
+                                            <div v-if="boardgame.tabletopiaURL!=''">
+                                                <strong>Link para criar a sala</strong>: <a
+                                                    v-bind:href="boardgame.tabletopiaURL" target="_blank"><i
+                                                        class="fas fa-book"></i> Criar sala tabletopia</a><br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row border p-2 m-2">
+                                        <div class="col-3 p-2" v-for="img in boardgame.imagens">
+                                            <img height="150px" @error="imgError" v-bind:src="img">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="float-right">
+                                    Estágio de desenvolvimento: {{boardgame.estagio}}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div style="height: 100px "></div>
+                    <p class="lead mb-0 ">Feito na casa do goblin!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="myModal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Incluir boardgame</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label>Name:</label>
+                                <input type="hidden" class="form-control" v-model="objBoardgame._id">
+                                <input type="hidden" class="form-control" v-model="objBoardgame.user">
+                                <input type="text" class="form-control" v-model="objBoardgame.titulo">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Ano:</label>
+                                <input type="text" class="form-control" v-model="objBoardgame.ano">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label>URL capa do jogo:</label>
+                                <input type="text" class="form-control" v-model="objBoardgame.capaURL">
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label>URL manual do jogo:</label>
+                                <input type="text" class="form-control" v-model="objBoardgame.manualURL">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label>Estagio de desenvolvimento:</label>
+                                <input type="text" class="form-control" v-model="objBoardgame.estagio">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-3">
+                                <label>Autor:</label>
+                                <input type="text" class="form-control" v-model="objBoardgame.autores">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Artista:</label>
+                                <input type="text" class="form-control" v-model="objBoardgame.artista">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Editora:</label>
+                                <input type="text" class="form-control" v-model="objBoardgame.editora">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Numero de jogador:</label>
+                                <div class="row form-group">
+                                    <input type="number" class="form-control col-4" v-model="objBoardgame.jogadoresDe">
+                                    <div class="col-2"> a </div>
+                                    <input type="number" class="form-control col-4" v-model="objBoardgame.jogadoresAte">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label>Duracao Media (minutos):</label>
+                                <input type="number" class="form-control" v-model="objBoardgame.duracaoMedia">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Idade Minima:</label>
+                                <input type="number" class="form-control" v-model="objBoardgame.idadeMinima">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Dependencia Idioma:</label>
+                                <input type="text" class="form-control" v-model="objBoardgame.dependenciaIdioma">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label>Descricao:</label>
+                                <textarea class="form-control" v-model="objBoardgame.descricao"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        Componentes
+                                        <button class="btn btn-info btn-sm float-right"
+                                            v-on:click="objBoardgame.addComponente()"><i
+                                                class="fas fa-plus"></i></button>
+                                    </div>
+                                    <div class="card-body">
+                                        <table v-if="objBoardgame.componentes.length>0"
+                                            class="table table-borderless table-sm">
+                                            <thead>
+                                                <th width="1%"></th>
+                                                <th width="80px">Qtd</th>
+                                                <th>Tipo</th>
+                                                <th width="150px">Tamanho</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(componente, index) in objBoardgame.componentes">
+                                                    <td>
+                                                        <button class="btn btn-danger btn-sm"
+                                                            v-on:click="objBoardgame.dropComponente(index)"><i
+                                                                class="fas fa-trash"></i></button>
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" class="form-control"
+                                                            v-model="componente.quantidade">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control"
+                                                            v-model="componente.tipo">
+
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control"
+                                                            v-model="componente.tamanho">
+
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        Tabletopia
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="form-group col-md-2 text-right">
+                                                Email:
+                                            </div>
+                                            <div class="form-group col-md-10">
+                                                <input type="text" class="form-control"
+                                                    v-model="objBoardgame.tabletopiaEmail">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+
+                                            <div class="form-group col-md-2 text-right">
+                                                Senha:
+                                            </div>
+                                            <div class="form-group col-md-10">
+                                                <input type="text" class="form-control"
+                                                    v-model="objBoardgame.tabletopiaSenha">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+
+                                            <div class="form-group col-md-2 text-right">
+                                                URL:
+                                            </div>
+                                            <div class="form-group col-md-10">
+                                                <input type="text" class="form-control"
+                                                    v-model="objBoardgame.tabletopiaURL">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        Imagens
+                                        <button class="btn btn-info btn-sm float-right"
+                                            v-on:click="objBoardgame.addImagem()"><i class="fas fa-plus"></i></button>
+
+                                    </div>
+                                    <div class="card-body">
+                                        <table v-if="objBoardgame.imagens.length>0"
+                                            class="table table-borderless table-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th width="1%"></th>
+                                                    <th>URL</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(imagem,index) in objBoardgame.imagens">
+                                                    <td class="text-center">
+                                                        <button class="btn btn-danger btn-sm"
+                                                            v-on:click="objBoardgame.dropImagem(index)"><i
+                                                                class="fas fa-trash"></i></button>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control" v-model="imagem.url">
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-info float-right" v-on:click="addBoardgame" data-dismiss="modal"><i
+                                class="fas fa-file"></i> Salvar</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js "
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj "
+        crossorigin="anonymous "></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js "
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo "
+        crossorigin="anonymous "></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js "
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI "
+        crossorigin="anonymous "></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue "></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js "></script>
+    <script src="assets/js/boardgame.js"></script>
+    <script src="assets/js/myApp.js"></script>
+
+</body>
+
+</html>

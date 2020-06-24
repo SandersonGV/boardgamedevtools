@@ -13,13 +13,13 @@
     <div id="app">
         <nav class="navbar navbar-expand-lg navbar-light bg-light static-top mb-5 shadow">
             <div class="container">
-                <a class="navbar-brand" href="#!"><i class="fas fa-box"></i>Boardgame dev tools</a>
+                <a class="navbar-brand" href="#"> <i class="fas fa-box"></i>Boardgame dev tools</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active">
+                        <li class="nav-item ">
                             <a class="nav-link" href="dashboard.html">
                                 <i class="fas fa-columns"></i> Home
                             </a>
@@ -29,9 +29,10 @@
                                 <i class="fas fa-stream"></i> Boardgames
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item active">
                             <a class="nav-link" href="perfil.html">
-                                <i class="fas fa-user"></i> Meu Perfil</a>
+                                <i class="fas fa-user"></i> Meu Perfil
+                            </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href=";" @click="logout">
@@ -47,22 +48,11 @@
         <div class="container">
             <div class="card border-0 shadow my-5">
                 <div class="card-body p-5">
-                    <h1 class="font-weight-light">Dashboard</h1>
-                    <div class="row mb-3">
-                        <div class="col-xl-4 col-sm-6 py-2" v-for="(info, index) in infos">
-                            <div class="card bg-light text-white h-80 ">
-                                <div class="card-body text-right " :style="'background-color:'+info.cor ">
-                                    <h6 class="text-uppercase ">{{info.titulo}}</h6>
-                                    <h1 class="display-4 "><i :class="info.icon+' mr-2'" ></i>{{info.valor}}</h1>
-                                    <a :href="'boardgames.html?tipo='+index" class="card-link card-link-sm text-white">
-                                       <i class="fas fa-external-link-alt"></i> Mais informações</a>
-                                </div>
-                            </div>
-                         
-                        </div>
+                    <h1 class="font-weight-light">Meu perfil </h1>
+                    
                     </div>
                     <div style="height: 300px "></div>
-                    <p class="lead mb-0 ">Feito na casa do goblin!</p>
+                    <p class="lead mb-0 ">feito na casa do goblin!</p>
                 </div>
             </div>
         </div>

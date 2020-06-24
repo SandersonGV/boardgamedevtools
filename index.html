@@ -1,38 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <title>Boardgame Dev Tools</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="login.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Boardgame Dev Tools</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/geral.css">
 
 </head>
+
 <body>
     <div id="app">
-        <h3 class="text-center text-white pt-5">Boardgame Dev tools</h3>
+
+        <h3 class="text-center pt-5"><i class="fas fa-box"></i> Boardgame Dev tools</h3>
         <div class="container">
-            <div id="inner" >
-                <div id="login-column" >
-                    <div id="login-box" class="col-md-12">
-                        <div id="login-form" class="form" >
-                            <h3 class="text-center ">Login</h3>
-                            <div class="form-group">
-                                <label for="username" class="">Username:</label><br>
-                                <input type="text" name="username" id="username" class="form-control">
+            <div class="card border-0 shadow my-5">
+                <div class="card-body p-5">
+                    <div class="card w-50" style="margin: 0 auto;">
+                        <div id="login-form" class="form">
+                            <div class="card-header">
+                                <h3 class="text-center ">Login</h3>
                             </div>
-                            <div class="form-group">
-                                <label for="password" class="">Password:</label><br>
-                                <input type="password" name="password" id="password" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <label for="remember-me" class=""><span>Remember me</span> <span><input id="remember-me" name="remember-me" type="checkbox"></span></label><br>
-                                <input type="button" name="submit" @click="login" class="btn btn-info btn-md" value="submit">
-                            </div>
-                            <div id="register-link"  class="text-right " hidden>
-                                <a  class="btn btn-info btn-sm" >Register here</a>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="username" class="">Email:</label><br>
+                                    <input type="text" name="username" id="username" class="form-control"
+                                        v-model="myAuth.email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" class="">Password:</label><br>
+                                    <input type="password" name="password" id="password" class="form-control"
+                                        v-model="myAuth.senha">
+                                </div>
+                                <div class="form-group">
+                                    <label for="remember-me" class=""><span>Remember me</span> <span><input
+                                                id="remember-me" name="remember-me" type="checkbox"></span></label><br>
+                                    <input type="button" name="submit" @click="login" class="btn btn-info btn-md"
+                                        value="submit">
+                                </div>
+                                <div id="register-link" class="text-right " hidden>
+                                    <a class="btn btn-info btn-sm">Register here</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -42,7 +52,19 @@
     </div>
 </body>
 
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
-<script src="myApp.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js "
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj "
+    crossorigin="anonymous "></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js "
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo "
+    crossorigin="anonymous "></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js "
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI "
+    crossorigin="anonymous "></script>
+<script src="https://cdn.jsdelivr.net/npm/vue "></script>
+<script src="https://kit.fontawesome.com/a076d05399.js "></script>
+<script src="assets/js/boardgame.js"></script>
+<script src="assets/js/myApp.js"></script>
 
 </html>
