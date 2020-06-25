@@ -14,66 +14,88 @@
 
 <body>
     <div id="app">
-        <h3 class="text-center pt-5"><i class="fas fa-box"></i> Boardgame Dev tools</h3>
         <div class="container">
+            <section id="formHolder">
+                <div class="row">
+                   <!-- Brand Box -->
+                   <div class="col-md-12 col-lg-6 brand">
+                      <a href="#" class="logo"><i class="fas fa-box"></i> </a>
+                      <div class="heading">
+                         <h2>Boardgame Dev tools</h2>
+                         <p>Sua melhor escolha</p>
+                      </div>
+                   </div>
+                   <!-- Form Box -->
+                   <div class="col-md-7 col-lg-6 form">
+                      <!-- Login Form -->
+                      <div class="login form-peice switched">
+                         <form class="login-form">
+                             <h1>Bem vinda(o) de volta!</h1>
+                         
+                            <div class="form-group input-group">
+                                <div class="input-group-prepend">
+                                 <div class="input-group-text">@</div>
+                               </div>
+                                <input type="email" class="form-control" placeholder="Email" v-model="myAuth.email" required>
+                             </div>
 
-            <div class="container">
-                <div class="signup">
-                    <h2 class="heading-2">Don't have an account?</h2>
-                    <p class="paragraph">
-                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Delectus provident suscipit iusto
-                        libero sint voluptates quas dignissimos quisquam veniam.
-                    </p>
-                    <button class="btn" id="signup">Sou novo aqui</button>
+                            <div class="form-group input-group">
+                               <div class="input-group-prepend">
+                                <div class="input-group-text"><i class="fas fa-lock"></i></div>
+                              </div>
+                               <input type="password" class="form-control" placeholder="Senha" v-model="myAuth.senha" required>
+                            </div>
+          
+                            <div class="CTA">
+                                <button class="btn btn-info btn-md" @click="login">Entrar</button>
+                                <a href="#" class="switch  float-right">Sou novo aqui!</a>
+                            </div>
+                         </form>
+                      </div><!-- End Login Form -->
+          
+                      <!-- Signup Form -->
+                      <div class="signup form-peice">
+                         <form class="signup-form">
+                            <h1>Junte-se a nós!</h1>
+          
+                            <div class="form-group input-group">
+                                <div class="input-group-prepend">
+                                 <div class="input-group-text"><i class="fas fa-user"></i></div>
+                               </div>
+                               <input type="text" class="form-control" placeholder="Nome" v-model="myAuth.name" >
+                            </div>
+          
+                            <div class="form-group input-group">
+                                <div class="input-group-prepend">
+                                 <div class="input-group-text">@</div>
+                               </div>
+                                <input type="email" class="form-control" placeholder="Email" v-model="myAuth.email" required>
+                             </div>
+                    
+                             <div class="form-group input-group">
+                                <div class="input-group-prepend">
+                                 <div class="input-group-text"><i class="fas fa-unlock"></i></div>
+                               </div>
+                                <input type="password" class="form-control" placeholder="Senha" v-model="myAuth.senha" required>
+                             </div>
+          
+                             <div class="form-group input-group">
+                                <div class="input-group-prepend">
+                                 <div class="input-group-text"><i class="fas fa-lock"></i></div>
+                               </div>
+                                <input type="password" class="form-control" placeholder="Confirmar senha" v-model="myAuth.confirm" required>
+                             </div>
+          
+                            <div class="CTA">
+                               <button class="btn btn-info btn-md" @:click="signup" >Registrar</button>
+                               <a href="#" class="switch  float-right">Já tenho cadastro</a>
+                            </div>
+                         </form>
+                      </div><!-- End Signup Form -->
+                   </div>
                 </div>
-                <div class="login">
-                    <h2 class="heading-2">Ja possui uma conta?</h2>
-                    <p class="paragraph">
-                        Clique a em entrar para acessar o painell de login.
-                    </p>
-                    <button class="btn" id="login">Entrar</button>
-                </div>
-            </div>
-
-            <div class="form-container">
-            </div>
-
-            <div class="signup__form">
-                <h2 class="heading-2 heading-2--form">Junte-se a nós!</h2>
-                <div class="input">
-                    <input type="text" placeholder="Nome de usuário">
-                    <i class="fas fa-user-circle"></i>
-                </div>
-                <div class="input">
-                    <input type="email" placeholder="E-Mail">
-                    <i class="fas fa-envelope"></i>
-                </div>
-                <div class="input">
-                    <input type="password" placeholder="Password">
-                    <i class="fas fa-lock"></i>
-                </div>
-                <div class="login__box">
-                    <button class="btn btn-primary" @click="signup">Registrar</button>
-                </div>
-            </div>
-
-            <div class="login__form">
-                <h2 class="heading-2 heading-2--form">Ben-vinda(o) de volta</h2>
-                <div class="input">
-                    <input type="email" placeholder="E-Mail" v-model="myAuth.email">
-                    <i class="fas fa-envelope"></i>
-                </div>
-                <div class="input">
-                    <input type="password" placeholder="Password"  v-model="myAuth.senha">
-                    <i class="fas fa-lock"></i>
-                </div>
-                <div class="login__box">
-                    <button class="btn btn-primary">Entrar</button>
-                    <a href="#" class="forgot" @click="login" >Esqueceu sua senha?</a>
-                </div>
-            </div>
-
-         
+          
+             </section>
         </div>
     </div>
 </body>
@@ -91,20 +113,7 @@
 <script src="https://cdn.jsdelivr.net/npm/vue "></script>
 <script src="https://kit.fontawesome.com/a076d05399.js "></script>
 <script src="assets/js/boardgame.js"></script>
-<script src="assets/js/myApp.js"></script>
-
-<script>
-    $("#login").click(function () {
-        $(".signup__form,.signup").addClass("in");
-        $(".login__form,.login").addClass("in");
-        $(".form-container").addClass("in");
-    });
-
-    $("#signup").click(function () {
-        $(".login__form,.login").removeClass("in");
-        $(".signup__form,.signup").removeClass("in");
-        $(".form-container").removeClass("in");
-    });
-</script>
+<script src="assets/js/appManager.js"></script>
+<script src="assets/js/login.js"></script>
 
 </html>

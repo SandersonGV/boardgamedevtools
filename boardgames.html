@@ -15,7 +15,9 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light static-top mb-5 shadow">
             <div class="container">
                 <a class="navbar-brand" href="#!"><i class="fas fa-box"></i>Boardgame dev tools</a>
-
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item ">
@@ -34,7 +36,7 @@
                                 <i class="fas fa-user"></i> Meu Perfil</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href=";" @click="logout">
+                            <a class="nav-link" href="/" onclick="appmanager.authOut()">
                                 <i class="fas fa-sign-out-alt"></i> Sair
                             </a>
                         </li>
@@ -44,31 +46,19 @@
         </nav>
 
         <!-- Page Content -->
-        <div class="container">
+        <div class="container-md">
             <div class="card border-0 shadow my-5">
-                <div class="card-body p-5">
+                <div class="card-body">
                     <h1 class="font-weight-light">Boardgames</h1>
 
                     <nav class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top">
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="#!" data-toggle="modal" data-target="#myModal"
+                                <a class="nav-link" style="color: whitesmoke;" href="#!" data-toggle="modal" data-target="#myModal"
                                     v-on:click="novoBoardgame">
                                     <i class="far fa-lightbulb"></i> Novo
                                 </a>
 
-                            </li>
-                            <li class="nav-item">
-                                <input id="fileInput" type="file" accept=".txt" style="display:none;"
-                                    v-on:change="getFile" />
-                                <a class="nav-link" href="#!" onclick="document.getElementById('fileInput').click();">
-                                    <i class="far fa-folder-open"></i> Abrir
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#!" v-on:click="download(boardgames,'boardgame')">
-                                    <i class="fas fa-download"></i> Salvar
-                                </a>
                             </li>
                         </ul>
 
@@ -85,7 +75,7 @@
                             <div class="card-header">
                                 <div class="d-flex">
                                     <div class="flex-grow-1 ">
-                                        <button class="btn w-100 text-left" type="button" data-toggle="collapse"
+                                        <button class="btn w-100 text-left bgTitle" type="button" data-toggle="collapse"
                                             v-bind:data-target="'#collapse'+index" aria-expanded="true"
                                             aria-controls="collapseOne">
                                             {{boardgame.titulo}} ({{boardgame.ano}})
@@ -110,7 +100,7 @@
                                     <div class="row border p-2 m-2">
                                         <div class="col-md-2">
                                             <div v-if="boardgame.capaURL!=''">
-                                                <img v-bind:src="boardgame.capaURL" height="150px" @error="imgError">
+                                                <img v-bind:src="boardgame.capaURL" height="150px" onerror="appmanager.imgError(this)">
                                             </div>
                                         </div>
                                         <div class="col-md-5">
@@ -161,7 +151,7 @@
                                     </div>
                                     <div class="row border p-2 m-2">
                                         <div class="col-3 p-2" v-for="img in boardgame.imagens">
-                                            <img height="150px" @error="imgError" v-bind:src="img">
+                                            <img height="150px" onerror="appmanager.imgError(this)" v-bind:src="img.url">
                                         </div>
                                     </div>
                                 </div>
@@ -409,7 +399,8 @@
     <script src="https://cdn.jsdelivr.net/npm/vue "></script>
     <script src="https://kit.fontawesome.com/a076d05399.js "></script>
     <script src="assets/js/boardgame.js"></script>
-    <script src="assets/js/myApp.js"></script>
+    <script src="assets/js/appManager.js"></script>
+    <script src="assets/js/boardgameList.js"></script>
 
 </body>
 

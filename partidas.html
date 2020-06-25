@@ -14,9 +14,8 @@
     <div id="app">
         <nav class="navbar navbar-expand-lg navbar-light bg-light static-top mb-5 shadow">
             <div class="container">
-                <a class="navbar-brand" href="#"> <i class="fas fa-box"></i>Boardgame dev tools</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand" href="#!"><i class="fas fa-box"></i>Boardgame dev tools</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -26,18 +25,18 @@
                                 <i class="fas fa-columns"></i> Home
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item active">
                             <a class="nav-link" href="boardgames.html">
                                 <i class="fas fa-stream"></i> Boardgames
-                            </a>
-                        </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="perfil.html">
-                                <i class="fas fa-user"></i> Meu Perfil
+
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/" onclick="appmanager.authOut()">
+                            <a class="nav-link" href="perfil.html">
+                                <i class="fas fa-user"></i> Meu Perfil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href=";" @click="logout">
                                 <i class="fas fa-sign-out-alt"></i> Sair
                             </a>
                         </li>
@@ -47,31 +46,17 @@
         </nav>
 
         <!-- Page Content -->
-        <div class="container">
+        <div class="container-md">
             <div class="card border-0 shadow my-5">
-                <div class="card-body p-5">
-                    <h1 class="font-weight-light">Meu perfil </h1>
-                    <div class="card mb-3" >
-                        <div class="row no-gutters">
-                            <div class="col-md-4">
-                                <img src="asd" class="card-img" onerror="appmanager.imgError(this)">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <p class="card-text">This is a wider card with supporting text below as a natural
-                                        lead-in to additional content. This content is a little bit longer.</p>
-                                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="card-body">
+                    <h1 class="font-weight-light">Partidas {{objBoardgame.titulo}}</h1>
+
+                    <div style="height: 100px "></div>
+                    <p class="lead mb-0 ">Feito na casa do goblin!</p>
                 </div>
-                <div style="height: 300px "></div>
-                <p class="lead mb-0 ">feito na casa do goblin!</p>
             </div>
         </div>
-    </div>
+
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js "
@@ -85,8 +70,8 @@
         crossorigin="anonymous "></script>
     <script src="https://cdn.jsdelivr.net/npm/vue "></script>
     <script src="https://kit.fontawesome.com/a076d05399.js "></script>
-    <script src="assets/js/appManager.js"></script>
-    <script src="assets/js/perfil.js"></script>
+    <script src="assets/js/boardgame.js"></script>
+    <script src="assets/js/myApp.js"></script>
 
 </body>
 

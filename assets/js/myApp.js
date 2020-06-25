@@ -72,33 +72,6 @@ var myApp = new Vue({
         dropBoardgame: function (index) {
             this.boardgames.splice(index, 1);
         },
-        saveSession: function (chave, valor) {
-            sessionStorage.setItem(chave, JSON.stringify(valor));
-        },
-        getSession: function (chave) {
-            const data = sessionStorage.getItem(chave);
-            if (data && data!="undefined") {
-                return JSON.parse(data);
-            }
-            return null;
-        },
-        imgError: function (event) {
-            event.target.src = "https://via.placeholder.com/350/?text=Not+Found"
-        },
-        getFile: function (event) {
-            let file = event.target.files[0];
-            let reader = new FileReader();
-            var that = this;
-            reader.onload = this.loadObj;
-            reader.readAsText(file);
-        },
-        loadObj: function (evt) {
-            try {
-                this.jsonToObj(JSON.parse(evt.target.result));
-            } catch (error) {
-                alert(error);
-            }
-        },
         jsonToObj: function (stringJson) {
             let loadobj = stringJson;
             this.baseBoardgameList = [];
@@ -159,16 +132,7 @@ var myApp = new Vue({
 
         },
         getItems: async function () {
-            let url = 'https://boardgamelibrary-36a8.restdb.io/rest/boardgames';
-            var obj = {
-                method: 'GET',
-                headers: {
-                    "content-type": "application/json",
-                    'x-apikey': '5ef29ccfa529a1752c476933'
-                }
-            };
-            let json = await this.myrequest(url, obj);
-            this.saveSession('boardgames',json);
+            let json = appmanager.getBoardgames();
             this.jsonToObj(json);
         },
         putItem: function (boardgame) {
@@ -201,12 +165,5 @@ var myApp = new Vue({
             boardgame._id = json._id;
             this.boardgames.push({ ...boardgame });
         },
-
-        myrequest: async (url, option) => {
-            const response = await fetch(url, option);
-            const json = await response.json();
-            return json;
-        },
-
     },
 });
