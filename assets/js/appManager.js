@@ -15,6 +15,11 @@ appmanager.auth = () => {
     return isAuth;
 }
 
+appmanager.authweb = ()=>{
+
+    return true;
+}
+
 appmanager.authOut = () => {
     appmanager.clearSession();
     self.location.href = "/";

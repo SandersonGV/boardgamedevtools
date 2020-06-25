@@ -8,14 +8,22 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
         integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="assets/css/geral.css">
+    <style>
+        .radiolabel {
+            display: flex !important;
+            justify-content: flex-end !important;
+            align-items: center !important;
+        }
+    </style>
 </head>
 
 <body>
     <div id="app">
         <nav class="navbar navbar-expand-lg navbar-light bg-light static-top mb-5 shadow">
             <div class="container">
-                <a class="navbar-brand" href="#!"><i class="fas fa-box"></i>Boardgame dev tools</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand"><i class="fas fa-box"></i>Boardgame dev tools</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -36,7 +44,7 @@
                                 <i class="fas fa-user"></i> Meu Perfil</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href=";" @click="logout">
+                            <a class="nav-link" href="/" onclick="appmanager.authOut()">
                                 <i class="fas fa-sign-out-alt"></i> Sair
                             </a>
                         </li>
@@ -49,13 +57,274 @@
         <div class="container-md">
             <div class="card border-0 shadow my-5">
                 <div class="card-body">
-                    <h1 class="font-weight-light">Partidas {{objBoardgame.titulo}}</h1>
-
+                    <h1 class="font-weight-light"> {{objBoardgame.titulo?objBoardgame.titulo+' - ':""}} Partidas</h1>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <button type="button" class="btn btn-primary btn-sm  " @click="novaPartida()">
+                                    <i class="fas fa-sticky-note"></i> Nova partida
+                                </button>
+                                <div class="list-group m-2">
+                                    <a @click="partidaSelect(partida)" v-for="partida in partidas"
+                                        class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mb-1">{{partida.data.toLocaleDateString() +" "+partida.local}}
+                                            </h5>
+                                        </div>
+                                        <small>feedbacks {{partida.feedbacks.length}}</small>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <canvas id="myChart" width="400" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
                     <div style="height: 100px "></div>
                     <p class="lead mb-0 ">Feito na casa do goblin!</p>
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="modalPartida" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Registro de partida</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label>Local</label>
+                                <input type="text" class="form-control" v-model="objPartida.local">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Data</label>
+                                <input-date class="form-control" v-model="objPartida.data"></input-date>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputPassword4">Duracao</label>
+                                <input-time class="form-control" v-model="objPartida.duracao"></input-time>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label>Quantidade de jogadores</label>
+                                <input type="number" class="form-control" v-model="objPartida.quantidadejogadores">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Quem ganhou?</label>
+                                <input type="number" class="form-control" v-model="objPartida.quemganhou">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label>O que foi testado</label>
+                                <textarea rows="3" class="form-control" v-model="objPartida.oquefoitestado"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label>Observações</label>
+                                <textarea rows="3" class="form-control" v-model="objPartida.observacao"></textarea>
+                            </div>
+                        </div>
+                        <div class="container">
+                            <label>Feedbacks</label>
+                            <button class="btn btn-success btn-sm float-rigth" @click="objPartida.addFeedback()"><i
+                                    class="fas fa-plus"></i>
+                            </button>
+                            <!-- Tab links -->
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item" role="presentation"
+                                    v-for="(feedback, index) in objPartida.feedbacks">
+                                    <a :class="'nav-link '+(index==0?'active':'')" :id="'feedback-tab'+index"
+                                        data-toggle="tab" :aria-selected="index==0" :href="'#feedback'+index"
+                                        role="tab">#{{index}}</a>
+                                </li>
+                            </ul>
+                            <!-- Tab content -->
+                            <div class="tab-content" id="myTabContent">
+                                <div v-for="(feedback, index) in objPartida.feedbacks"
+                                    :class="'tab-pane border-1 fade show '+(index==0?'active show':'')"
+                                    :id="'feedback'+index" :aria-labelledby="'feedback-tab'+index" role="tabpanel">
+                                    <div class="form-row m-1 d-flex justify-content-end">
+                                        <button class="btn btn-danger btn-sm" @click="objPartida.dropFeedback(index)"><i
+                                                class="fas fa-trash"></i></button>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <label>Nome do jogador</label>
+                                            <input type="text" class="form-control" v-model="feedback.nomejogador">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label>Genero (como você se define)</label>
+                                            <input type="text" class="form-control" v-model="feedback.idgenero">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="inputPassword4">Idade</label>
+                                            <input type="number" class="form-control" v-model="feedback.idade">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-8">
+                                            <label>Email</label>
+                                            <input type="text" class="form-control" v-model="feedback.email">
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label>Pontuacao</label>
+                                            <input type="number" class="form-control" v-model="feedback.pontuacao">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                            <input id="chkNot" type="checkbox" v-model="feedback.acompanhar">
+                                            <label for="chkNot" >Receber notifições</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                            <label>Sobre as afirmações abaixo </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class=" col-md-4 radiolabel ">
+                                            <span>Me diverti: </span>
+                                        </div>
+                                        <div class=" col-md-8">
+                                            <div class="form-check form-check-inline" v-for="metrica in mertricas">
+                                                <input class="form-check-input m-1" type="radio" :id="'mediverti'+metrica.valor"
+                                                    :value="metrica.valor" v-model="feedback.mediverti">
+                                                <label class="form-check-label" :style="'font-size: xx-large; color:'+ metrica.cor "
+                                                    :for="'mediverti'+metrica.valor"><i :class="metrica.descricao"></i></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class=" col-md-4 radiolabel">
+                                            <span>Eu Gostei da duração: </span>
+                                        </div>
+                                        <div class=" col-md-8">
+                                            <div class="form-check form-check-inline" v-for="metrica in mertricas">
+                                                <input class="form-check-input m-1" type="radio"
+                                                    :id="'gosteidaduracao'+metrica.valor" :value="metrica.valor"
+                                                    v-model="feedback.gosteidaduracao">
+                                                <label class="form-check-label" :style="'font-size: xx-large; color:'+ metrica.cor "
+                                                    :for="'gosteidaduracao'+metrica.valor"><i
+                                                        :class="metrica.descricao"></i></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class=" col-md-4 radiolabel">
+                                            <span>As regras ficaram claras: </span>
+                                        </div>
+                                        <div class=" col-md-8">
+                                            <div class="form-check form-check-inline" v-for="metrica in mertricas">
+                                                <input class="form-check-input m-1" type="radio"
+                                                    :id="'regrasficaramclaras'+metrica.valor" :value="metrica.valor"
+                                                    v-model="feedback.regrasficaramclaras">
+                                                <label class="form-check-label" :style="'font-size: xx-large; color:'+ metrica.cor "
+                                                    :for="'regrasficaramclaras'+metrica.valor"><i
+                                                        :class="metrica.descricao"></i></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class=" col-md-4 radiolabel">
+                                            <span>É um jogo original: </span>
+                                        </div>
+                                        <div class=" col-md-8">
+                                            <div class="form-check form-check-inline" v-for="metrica in mertricas">
+                                                <input class="form-check-input m-1" type="radio" :id="'jogooriginal'+metrica.valor"
+                                                    :value="metrica.valor" v-model="feedback.jogooriginal">
+                                                <label class="form-check-label" :style="'font-size: xx-large; color:'+ metrica.cor "
+                                                    :for="'jogooriginal'+metrica.valor"><i :class="metrica.descricao"></i></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class=" col-md-4 radiolabel">
+                                            <span>É um jogo bem estratégico: </span>
+                                        </div>
+                                        <div class=" col-md-8">
+                                            <div class="form-check form-check-inline" v-for="metrica in mertricas">
+                                                <input class="form-check-input m-1" type="radio"
+                                                    :id="'jogobemestrategico'+metrica.valor" :value="metrica.valor"
+                                                    v-model="feedback.jogobemestrategico">
+                                                <label class="form-check-label" :style="'font-size: xx-large; color:'+ metrica.cor "
+                                                    :for="'jogobemestrategico'+metrica.valor"><i
+                                                        :class="metrica.descricao"></i></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class=" col-md-4 radiolabel">
+                                            <span>Eu jogaria novamente: </span>
+                                        </div>
+                                        <div class=" col-md-8">
+                                            <div class="form-check form-check-inline" v-for="metrica in mertricas">
+                                                <input class="form-check-input m-1" type="radio"
+                                                    :id="'jogarianovamente'+metrica.valor" :value="metrica.valor"
+                                                    v-model="feedback.jogarianovamente">
+                                                <label class="form-check-label" :style="'font-size: xx-large; color:'+ metrica.cor "
+                                                    :for="'jogarianovamente'+metrica.valor"><i
+                                                        :class="metrica.descricao"></i></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class=" col-md-4 radiolabel">
+                                            <span>Eu compraria o jogo: </span>
+                                        </div>
+                                        <div class=" col-md-8">
+                                            <div class="form-check form-check-inline" v-for="metrica in mertricas">
+                                                <input class="form-check-input m-1" type="radio"
+                                                    :id="'comprariaojogo'+metrica.valor" :value="metrica.valor"
+                                                    v-model="feedback.comprariaojogo">
+                                                <label class="form-check-label" :style="'font-size: xx-large; color:'+ metrica.cor "
+                                                    :for="'comprariaojogo'+metrica.valor"><i :class="metrica.descricao"></i></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                            <label>O que você menos gostou?</label>
+                                            <textarea rows="3" class="form-control"
+                                                v-model="feedback.oquemenosgostou"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                            <label>O que você mais gostou?</label>
+                                            <textarea rows="3" class="form-control"
+                                                v-model="feedback.oquemaisgostou"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12">
+                                            <label>Observações</label>
+                                            <textarea rows="3" class="form-control"
+                                                v-model="feedback.observacao"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
     </div>
 
@@ -70,8 +339,10 @@
         crossorigin="anonymous "></script>
     <script src="https://cdn.jsdelivr.net/npm/vue "></script>
     <script src="https://kit.fontawesome.com/a076d05399.js "></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
     <script src="assets/js/boardgame.js"></script>
-    <script src="assets/js/myApp.js"></script>
+    <script src="assets/js/appManager.js"></script>
+    <script src="assets/js/partidas.js"></script>
 
 </body>
 

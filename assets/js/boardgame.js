@@ -79,13 +79,14 @@ class Partida{
     constructor() {
         this._id = "";
         this.boardgameID= "";
-        this.duracao =0;
-        this.data = date();
+        this.duracao = new Date();
+        this.data = new Date();
         this.quantidadejogadores = 1;
-        this.tipo = "";
+        this.local = "";
         this.oquefoitestado="";
-        this.observasao ="";
+        this.observacao ="";
         this.quemganhou = 1;
+        this.feedbackexterno = false;
         this.feedbacks=[];
         
     }
@@ -96,9 +97,9 @@ class Partida{
         this.duracao =item.duracao;
         this.data = item.data;
         this.quantidadejogadores = item.quantidadejogadores;
-        this.tipo = item.tipo;
+        this.local = item.local;
         this.oquefoitestado=item.oquefoitestado;
-        this.observasao =item.observasao;
+        this.observacao =item.observacao;
         this.quemganhou = item.quemganhou;
         this.feedbacks=item.feedback;
     }
@@ -116,10 +117,11 @@ class Partida{
 class Feedback{
     constructor() {
         this.nomejogador= "";
-        this.genero= "";
+        this.idgenero= "";
         this.pontuacao= 0;
         this.idade= 0;
         this.email= "";
+        this.acompanhar= false;
         this.mediverti= 0;
         this.gosteidaduracao= 0;
         this.regrasficaramclaras= 0;
@@ -129,6 +131,15 @@ class Feedback{
         this.comprariaojogo= 0;
         this.oquemenosgostou= "";
         this.oquemaisgostou= "";
-        this.observasao= "";
+        this.observacao= "";
     }
 }
+
+var mertricas=[
+    {valor:1, descricao:"far fa-angry" , cor:'#b03b21'},
+    {valor:2, descricao:"far fa-frown", cor:'#b07221'},
+    {valor:3, descricao:"far fa-meh", cor:'#aeb021'},
+    {valor:4, descricao:"far fa-smile-beam", cor:'#69b021'},
+    {valor:5, descricao:"far fa-grin-stars", cor:'#34b021'},
+]
+

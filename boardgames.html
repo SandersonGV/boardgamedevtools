@@ -97,6 +97,18 @@
                             </div>
                             <div v-bind:id="'collapse'+index" class="collapse" aria-labelledby="headingOne">
                                 <div class="card-body">
+                                    <div class="d-flex justify-content-end ">
+                                        <div class="p-1">
+                                            <a class="btn btn-outline-info btn-sm "
+                                                :href="'/partidas.html?bgid='+boardgame._id"><i
+                                                    class="fas fa-file"></i> Partidas</a>
+                                        </div>
+                                        <div class="p-1">
+                                            <a class="btn btn-outline-info btn-sm "
+                                                :href="'/sellsheet.html?bgid='+boardgame._id"><i
+                                                    class="fas fa-print"></i> Sellsheet</a>
+                                        </div>
+                                    </div>
                                     <div class="row border p-2 m-2">
                                         <div class="col-md-2">
                                             <div v-if="boardgame.capaURL!=''">
