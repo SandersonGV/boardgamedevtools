@@ -35,7 +35,7 @@ var myApp = new Vue({
             this.checkSession();
         },
         logout: function () {
-            this.Auth0Lock.logout({returnTo: "" });
+            this.Auth0Lock.logout();
         },
         resumeSession: function () {
             appmanager.saveSession('auth', this.AuthResult.idToken);
