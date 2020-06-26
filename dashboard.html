@@ -31,15 +31,20 @@
                                 <i class="fas fa-stream"></i> Boardgames
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="perfil.html">
-                                <i class="fas fa-user"></i> Meu Perfil</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/" onclick="appmanager.authOut()">
-                                <i class="fas fa-sign-out-alt"></i> Sair
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img :src="appmanager.profile.picture" class="rounded-circle" width="30px"
+                                    height="30px">
+                                {{appmanager.profile.nickname}}
                             </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="nav-link" href="/" onclick="appmanager.authOut()">
+                                    <i class="fas fa-sign-out-alt"></i> Sair
+                                </a>
+                            </div>
                         </li>
+
                     </ul>
                 </div>
             </div>

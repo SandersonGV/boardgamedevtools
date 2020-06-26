@@ -4,6 +4,7 @@ var myApp = new Vue({
         Auth0Lock: {},
         AuthResult: {},
         Perfil: null,
+        
     },
     created: function () {
         appmanager.auth();
