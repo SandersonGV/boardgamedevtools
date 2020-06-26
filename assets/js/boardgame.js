@@ -43,7 +43,7 @@ class Boardgame {
         this.tabletopiaEmail = item.tabletopiaEmail;
         this.tabletopiaSenha = item.tabletopiaSenha;
         this.estagio = item.estagio;
-        this.imagens = item.imagens;
+        this.imagens = item.imagens==""?[]:item.imagens;
         this.user = item.user;
     }
 
@@ -55,7 +55,7 @@ class Boardgame {
         this.componentes.splice(index, 1);
     }
     addImagem() {
-        this.imagens.push("");
+        this.imagens.push(new imagem());
     }
 
     dropImagem(index) {

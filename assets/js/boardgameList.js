@@ -8,7 +8,7 @@ var myApp = new Vue({
         tipoDeLista: 0,
         titulo: "",
     },
-    created: function () {
+    created: async function () {
         this.myAuth = appmanager.auth();
 
         this.objBoardgame = new Boardgame();
@@ -16,9 +16,10 @@ var myApp = new Vue({
         if (params.has("tipo")) {
             this.tipoDeLista = parseInt(params.get("tipo"));
         }
-        const bgs = appmanager.getSession('boardgames');
+        let bgs = appmanager.getSession('boardgames');
         if (!bgs) {
-            bgs = appmanager.getBoardgames();
+            const result = await appmanager.getBoardgames();
+            bgs = result.status ? result.json : "";
         }
         this.jsonToObj(bgs);
     },
@@ -51,7 +52,7 @@ var myApp = new Vue({
             if (this.estado == 'novo') {
                 this.setItem(this.objBoardgame);
             } else {
-                this.setItem(this.objBoardgame);
+                this.putItem(this.objBoardgame);
             }
             this.objBoardgame = new Boardgame();
         },
@@ -113,18 +114,39 @@ var myApp = new Vue({
 
         },
         getItems: async function () {
-            let json = appmanager.getBoardgames();
-            this.jsonToObj(json);
+            const result = await appmanager.getBoardgames();
+
+            if (result.status) {
+                let json = result.status ? result.json : "";
+                this.jsonToObj(json);
+
+            } else {
+                appmanager.openMessage("warning", result.json.message);
+            }
         },
-        putItem: function (boardgame) {
-            boardgame.user = this.profile.email;
-            let result = appmanager.putBoardgames(boardgame);
-            this.getItems();
+        putItem: async function (boardgame) {
+            let result = await appmanager.putBoardgame(boardgame);
+
+            if (result.status) {
+                this.getItems();
+                appmanager.openMessage("succes", "Aualização realizada");
+
+            } else {
+                appmanager.openMessage("warning", result.json.message);
+            }
 
         },
         setItem: async function (boardgame) {
-            let result = appmanager.setBoardgames(boardgame);
-            this.getItems();
+            let result = await appmanager.setBoardgame(boardgame);
+
+            if (result.status) {
+                this.getItems();
+                appmanager.openMessage("succes", "Cadastro realizado");
+
+            } else {
+                appmanager.openMessage("warning", result.json.message);
+            }
+
         },
     },
 });

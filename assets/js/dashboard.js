@@ -5,11 +5,12 @@ var myApp = new Vue({
         boardgames: [],
         baseBoardgameList: [],
     },
-    created: function () {
+    created: async function () {
         appmanager.auth();
-        const bgs = appmanager.getSession('boardgames');
+        let bgs = appmanager.getSession('boardgames');
         if (!bgs) {
-            bgs = appmanager.getBoardgames();
+            const result = await appmanager.getBoardgames();
+            bgs = result.status?result.json:"";
         }
         this.jsonToObj(bgs);
     },
@@ -58,9 +59,6 @@ var myApp = new Vue({
             );
 
         },
-        getItems: async function () {
-            let json = appmanager.getBoardgames();
-            this.jsonToObj(json);
-        },
+
     },
 });

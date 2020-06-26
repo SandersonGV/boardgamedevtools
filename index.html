@@ -27,68 +27,19 @@
                    </div>
                    <!-- Form Box -->
                    <div class="col-md-7 col-lg-6 form">
-                      <!-- Login Form -->
-                      <div class="login form-peice switched">
-                         <form class="login-form">
-                             <h1>Bem vinda(o) de volta!</h1>
-                         
-                            <div class="form-group input-group">
-                                <div class="input-group-prepend">
-                                 <div class="input-group-text">@</div>
-                               </div>
-                                <input type="email" class="form-control" placeholder="Email" v-model="myAuth.email" required>
-                             </div>
-
-                            <div class="form-group input-group">
-                               <div class="input-group-prepend">
-                                <div class="input-group-text"><i class="fas fa-lock"></i></div>
-                              </div>
-                               <input type="password" class="form-control" placeholder="Senha" v-model="myAuth.senha" required>
-                            </div>
-          
-                            <div class="CTA">
-                                <button class="btn btn-info btn-md" @click="login">Entrar</button>
-                                <a href="#" class="switch  float-right">Sou novo aqui!</a>
-                            </div>
-                         </form>
-                      </div><!-- End Login Form -->
-          
+                    
                       <!-- Signup Form -->
                       <div class="signup form-peice">
-                         <form class="signup-form">
+                         <form class="signup-form"  v-on:submit.prevent="login" >
                             <h1>Junte-se a nós!</h1>
-          
-                            <div class="form-group input-group">
-                                <div class="input-group-prepend">
-                                 <div class="input-group-text"><i class="fas fa-user"></i></div>
-                               </div>
-                               <input type="text" class="form-control" placeholder="Nome" v-model="myAuth.name" >
+                            <div class="alert alert-warning alert-dismissible fade show" style="display: none;" role="alert">
+                              <div id="msgAlert"></div>
+                              <button type="button" class="close" aria-label="Close" onclick="$('.alert').hide()">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
                             </div>
-          
-                            <div class="form-group input-group">
-                                <div class="input-group-prepend">
-                                 <div class="input-group-text">@</div>
-                               </div>
-                                <input type="email" class="form-control" placeholder="Email" v-model="myAuth.email" required>
-                             </div>
-                    
-                             <div class="form-group input-group">
-                                <div class="input-group-prepend">
-                                 <div class="input-group-text"><i class="fas fa-unlock"></i></div>
-                               </div>
-                                <input type="password" class="form-control" placeholder="Senha" v-model="myAuth.senha" required>
-                             </div>
-          
-                             <div class="form-group input-group">
-                                <div class="input-group-prepend">
-                                 <div class="input-group-text"><i class="fas fa-lock"></i></div>
-                               </div>
-                                <input type="password" class="form-control" placeholder="Confirmar senha" v-model="myAuth.confirm" required>
-                             </div>
-          
-                            <div class="CTA">
-                               <button class="btn btn-info btn-md" @:click="signup" >Registrar</button>
-                               <a href="#" class="switch  float-right">Já tenho cadastro</a>
+                            <div class="m-3 text-center">
+                               <button class="btn btn-info btn-lg">Entrar</button>
                             </div>
                          </form>
                       </div><!-- End Signup Form -->
@@ -112,8 +63,8 @@
     crossorigin="anonymous "></script>
 <script src="https://cdn.jsdelivr.net/npm/vue "></script>
 <script src="https://kit.fontawesome.com/a076d05399.js "></script>
+<script src="https://cdn.auth0.com/js/lock/11.24.3/lock.min.js"></script>
 <script src="assets/js/boardgame.js"></script>
 <script src="assets/js/appManager.js"></script>
 <script src="assets/js/login.js"></script>
-
 </html>
