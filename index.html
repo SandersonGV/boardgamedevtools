@@ -32,15 +32,19 @@
                       <div class="signup form-peice">
                          <form class="signup-form"  v-on:submit.prevent="login" >
                             <h1>Junte-se a nós!</h1>
-                            <div class="alert alert-warning alert-dismissible fade show" style="display: none;" role="alert">
-                              <div id="msgAlert"></div>
-                              <button type="button" class="close" aria-label="Close" onclick="$('.alert').hide()">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
+                            <div class="row text-center" >
+                               <div v-if="!Perfil" class="col-md-12  mt-5 mb-5 ">
+                                 <button class=" btn btn-info btn-lg">Entrar</button>
+                              </div>
+                              <div v-else class="col mb-4 CTA ">
+                                 <img :src="Perfil.picture" style="width:120px;" class="m-2 rounded-circle card-img-top" >
+                                     <h5 class="card-title">Olá {{Perfil.name}}</h5>
+                                     <p class="card-text">Voce ainda está logado!</p>
+                                    <button @click="resumeSession()" class="btn btn-info btn-lg">Continuar</button>
+                                    <a @click="logout" class="switch">sair e usar outra conta </a>
+                               </div>
                             </div>
-                            <div class="m-3 text-center">
-                               <button class="btn btn-info btn-lg">Entrar</button>
-                            </div>
+                            
                          </form>
                       </div><!-- End Signup Form -->
                    </div>

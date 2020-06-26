@@ -1,83 +1,8 @@
 var appmanager = {
     appkey: "",
     profile: "",
-    checkprofile: null,
-    Auth0Lock: new Auth0Lock(
-        'Vj79NXuRXIU8SuDZvRxjZsesFqB3anNZ',
-        'virgolinos.auth0.com',
-        {
-            languageDictionary: {
-                title: "Boardgame Dev Tools"
-            },
-            language: "pt-BR",
-            auth: {
-                redirect: false,
-                responseType: 'token id_token'
-            },
-            theme: {
-                logo: "https://cdn.icon-icons.com/icons2/1537/PNG/512/1562690-box-creative-energy-idea-think-out-of-the-box_107044.png",
-                primaryColor: "green",
-            }
-        })
 }
 
-appmanager.Auth0Lock.on("authenticated", function (authResult) {
-    appmanager.Auth0Lock.getProfile(authResult.accessToken, function (error, profile) {
-        let result = {
-            status: 0,
-            msg: ""
-        };
-        if (error) {
-            result.status = 1;
-            result.msg = error.description;
-        } else {
-            result = appmanager.getinfos(profile, authResult.idToken);
-        }
-        if (typeof appmanager.checkprofile == "function") {
-            appmanager.checkprofile(result);
-        }
-
-        appmanager.Auth0Lock.hide();
-    });
-})
-
-appmanager.getinfos = (profile, idToken) => {
-    let status = 0;
-    let msg = "";
-
-    if (!profile.email_verified) {
-        status = 1;
-        msg = "Ainda falta verificar seu email";
-    } else {
-        appmanager.saveSession('auth', idToken);
-        appmanager.saveSession('profile', profile);
-        appmanager.appkey = idToken;
-        appmanager.profile = profile;
-        status = 0;
-        msg = "login sucesso";
-    }
-    return {
-        status: status,
-        msg: msg
-    };
-}
-
-appmanager.login = () => {
-    appmanager.Auth0Lock.show();
-}
-
-appmanager.checkSession = () => {
-    appmanager.Auth0Lock.checkSession({}, function (error, authResult) {
-        if (error || !authResult) {
-            appmanager.Auth0Lock.show();
-        } else {
-            // user has an active session, so we can use the accessToken directly.
-            appmanager.Auth0Lock.getUserInfo(authResult.accessToken, function (error, profile) {
-                appmanager.getinfos(profile, accessToken.idToken);
-            });
-        }
-    });
-}
 
 appmanager.auth = () => {
     const isAuth = appmanager.getSession('auth');
@@ -96,7 +21,6 @@ appmanager.auth = () => {
 }
 
 appmanager.authOut = () => {
-    appmanager.Auth0Lock.logout();
     appmanager.clearSession();
     self.location.href = "/";
 }
@@ -202,5 +126,4 @@ appmanager.openMessage = (tipo = "info", text) => {
             break;
     }
     swal(titulo, text, tipo);
-
 }

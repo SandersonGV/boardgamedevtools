@@ -129,7 +129,7 @@ var myApp = new Vue({
 
             if (result.status) {
                 this.getItems();
-                appmanager.openMessage("succes", "Aualização realizada");
+                appmanager.openMessage("success", "Aualização realizada");
 
             } else {
                 appmanager.openMessage("warning", result.json.message);
