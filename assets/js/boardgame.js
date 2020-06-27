@@ -79,7 +79,7 @@ class Partida{
     constructor() {
         this._id = "";
         this.boardgameID= "";
-        this.duracao = new Date();
+        this.duracao = 0;
         this.data = new Date();
         this.quantidadejogadores = 1;
         this.local = "";
@@ -95,13 +95,14 @@ class Partida{
         this._id = item._id;
         this.boardgameID= item.boardgameID;
         this.duracao =item.duracao;
-        this.data = item.data;
+        this.data = new Date(item.data);
         this.quantidadejogadores = item.quantidadejogadores;
         this.local = item.local;
         this.oquefoitestado=item.oquefoitestado;
         this.observacao =item.observacao;
         this.quemganhou = item.quemganhou;
-        this.feedbacks=item.feedback;
+        this.feedbacks=item.feedbacks;
+        this.feedbackexterno=item.feedbackexterno;
     }
 
     addFeedback() {

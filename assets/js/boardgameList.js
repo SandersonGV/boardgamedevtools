@@ -45,7 +45,7 @@ var myApp = new Vue({
         novoBoardgame: function () {
             this.estado = 'novo';
             this.objBoardgame = new Boardgame()
-            this.objBoardgame.user = this.profile.email;
+            this.objBoardgame.user = appmanager.profile.email;
 
         },
         addBoardgame: function () {
@@ -69,7 +69,7 @@ var myApp = new Vue({
             for (const item of loadobj) {
                 let boardgame = new Boardgame();
                 boardgame.loadJson(item);
-                boardgame.user = item.user != "" ? item.user : this.myAuth.email;
+                boardgame.user = item.user;
                 this.baseBoardgameList.push(boardgame);
             }
             this.setBoardgameList();

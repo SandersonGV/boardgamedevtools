@@ -3,7 +3,6 @@ var appmanager = {
     profile: "",
 }
 
-
 appmanager.auth = () => {
     const isAuth = appmanager.getSession('auth');
     const isLoginPage = (self.location.href.split("/")[3].includes('index') || self.location.href.split("/")[3] == "");
@@ -24,9 +23,9 @@ appmanager.authOut = () => {
     appmanager.clearSession();
     self.location.href = "/";
 }
-
+//boardgames
 appmanager.getBoardgames = async () => {
-    let url = 'https://boardgamelibrary-36a8.restdb.io/rest/boardgames';
+    let url = 'https://boardgamelibrary-36a8.restdb.io/rest/boardgames?q={"user":"'+appmanager.profile.email+'"}';
     var obj = {
         method: 'GET',
         headers: {
@@ -41,6 +40,7 @@ appmanager.getBoardgames = async () => {
 }
 
 appmanager.setBoardgame = async (boardgame) => {
+    delete boardgame._id;
     boardgame.user = appmanager.profile.email;
     let url = 'https://boardgamelibrary-36a8.restdb.io/rest/boardgames';
     let data = JSON.stringify(boardgame);
@@ -61,6 +61,67 @@ appmanager.putBoardgame = async (boardgame) => {
     let data = JSON.stringify(boardgame);
     let obj = {
         method: 'PUT',
+        headers: {
+            "content-type": "application/json",
+            'Authorization': "Bearer " + appmanager.appkey
+        },
+        body: data,
+    };
+
+    let json = await appmanager.request(url, obj);
+    return json;
+}
+//partidas
+appmanager.getPartidas = async (boardgameID) => {
+    let url = 'https://boardgamelibrary-36a8.restdb.io/rest/partidas?q={"boardgameID":"'+boardgameID+'"}';
+    var obj = {
+        method: 'GET',
+        headers: {
+            "content-type": "application/json",
+            'Authorization': "Bearer " + appmanager.appkey
+        }
+    };
+    let result = await appmanager.request(url, obj);
+    return result;
+}
+
+appmanager.setPartida = async (partida) => {
+    delete partida._id;
+    let url = 'https://boardgamelibrary-36a8.restdb.io/rest/partidas';
+    let data = JSON.stringify(partida);
+    let obj = {
+        method: 'POST',
+        headers: {
+            "content-type": "application/json",
+            'Authorization': "Bearer " + appmanager.appkey
+        },
+        body: data,
+    };
+    let json = await appmanager.request(url, obj);
+    return json;
+}
+
+appmanager.putPartida = async (partida) => {
+    let url = 'https://boardgamelibrary-36a8.restdb.io/rest/partidas/' + partida._id;
+    let data = JSON.stringify(partida);
+    let obj = {
+        method: 'PUT',
+        headers: {
+            "content-type": "application/json",
+            'Authorization': "Bearer " + appmanager.appkey
+        },
+        body: data,
+    };
+
+    let json = await appmanager.request(url, obj);
+    return json;
+}
+
+appmanager.dropPartida = async (partida) => {
+    let url = 'https://boardgamelibrary-36a8.restdb.io/rest/partidas/' + partida._id;
+    let data = JSON.stringify(partida);
+    let obj = {
+        method: 'DELETE',
         headers: {
             "content-type": "application/json",
             'Authorization': "Bearer " + appmanager.appkey
