@@ -83,29 +83,140 @@
                             <div class="row tab-pane fade show active" id="listaview" role="tabpanel"
                                 aria-labelledby="listaview-tab">
                                 <div class="col-md-12">
-                                    <button type="button" class="btn btn-primary btn-sm" @click="novaPartida()">
+                                    <button type="button" class="btn btn-outline-primary btn-sm" @click="novaPartida()">
                                         <i class="fas fa-sticky-note"></i> Nova partida
                                     </button>
-                                    <div class="d-flex justify-content-between border-1 p-5" v-for="partida in partidas">
-                                        <div class="">
-                                            <p class="mb-1">
-                                                {{partida.data.toLocaleDateString() +" "+partida.local}}
-                                            </p>
-                                            <small>feedbacks {{partida.feedbacks.length}}</small>
+                                    <div class="card mt-2" v-for="(partida, indice) in partidas">
+                                        <div class="card-header d-flex ">
+                                            <div class="flex-fill align-self-center"
+                                                 style="font-size: larger;">
+                                                <strong>Data</strong>: {{new Date(partida.data).toLocaleDateString()}}
+                                                <strong>Local</strong>: {{partida.local}}
+                                            </div>
+                                            <div class="d-flex ml-auto">
+                                                <a :href="'#collapsePartida'+indice" type="button " class="btn btn-outline-dark btn-sm m-1"
+                                                data-toggle="collapse">
+                                                <i class="fas fa-eye"></i>
+                                                </a>
+                                                <button type="button " class="btn btn-outline-info btn-sm m-1"
+                                                    @click="partidaSelect(partida)">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button type="button " class="btn btn-outline-danger btn-sm m-1"
+                                                    @click="dropPartida(partida)">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <button type="button " class="btn btn-info btn-sm"
-                                                @click="partidaSelect(partida)">
-                                                <i class="fas fa-edit"></i>
-                                            </button>
-                                            <button type="button " class="btn btn-danger btn-sm" @click="dropPartida">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
+                                        <div class="card-body collapse" :id="'collapsePartida'+indice">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div><strong>Duração</strong>: {{partida.duracao}} minutos</div>
+                                                    <div><strong>Quem ganhou</strong>? {{partida.quemganhou}} º jogador
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div><strong>Quantidade de jogadores</strong>:
+                                                        {{partida.quantidadejogadores}}</div>
+                                                    <div><strong>Link para feedback externo</strong>:
+                                                        <a v-if="partida.feedbackexterno" target="_blank" :href="self.location.origin+'/feedback.html?pid='+partida._id" > {{ self.location.origin+'/feedback.html?pid='+partida._id }}</a> 
+                                                        <span v-else >não</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div><strong>Feedbacks</strong>: {{partida.feedbacks.length}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-2" v-if="partida.feedbacks.length>0">
+                                                <div class="col-md-12">
+                                                    <div class="card ">
+                                                        <div class="card-header">
+                                                            <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                                                                <li v-for="(feedback, index) in partida.feedbacks"
+                                                                    class="nav-item" role="presentation">
+                                                                    <a :class="'nav-link '+(index==0? 'active':'')"
+                                                                        data-toggle="tab" :href="'#feed-'+index"
+                                                                        role="tab" :aria-controls="'feed-'+index"
+                                                                        :aria-selected="''+index==0"
+                                                                        :id="'#feed-tab'+index">
+                                                                        #{{index}}</a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="tab-content card-body">
+                                                            <div v-for="(feedback, index) in partida.feedbacks" s
+                                                                :class="'tab-pane fade  '+(index==0? 'show active':'')"
+                                                                :id="'feed-'+index" role="tabpanel"
+                                                                :aria-labelledby="'feed-tab'+index">
+                                                                <div class="row m-1">
+                                                                    <div class="col-md-4">
+                                                                        <div><strong>Jogador</strong>:
+                                                                            {{feedback.nomejogador}}</div>
+                                                                        <div><strong>Idade</strong>: {{feedback.idade}}
+                                                                        </div>
+                                                                        <div><strong>Email</strong>: {{feedback.email}}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <div><strong>Pontuação</strong>:
+                                                                            {{feedback.pontuacao}}</div>
+                                                                        <div><strong>Receber notificação</strong>:
+                                                                            {{feedback.acompanhar?'sim': 'não'}}</div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row border m-1 p-2">
+                                                                    <div class="col-md-4">
+                                                                        <div><strong>Eu me diverti</strong>:
+                                                                            {{feedback.mediverti}}</div>
+                                                                        <div><strong>eu gstei da durção</strong>:
+                                                                            {{feedback.gosteidaduracao}}</div>
+                                                                        <div><strong>As regras ficaram claras</strong>:
+                                                                            {{feedback.regrasficaramclaras}}</div>
+                                                                        <div><strong>O jogo é original</strong>:
+                                                                            {{feedback.jogooriginal}}</div>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <div><strong>Jogo bem estrategico</strong>:
+                                                                            {{feedback.jogobemestrategico}}</div>
+                                                                        <div><strong>Jogaria novamente</strong>:
+                                                                            {{feedback.jogarianovamente}}</div>
+                                                                        <div><strong>Compraria o jogo</strong>:
+                                                                            {{feedback.comprariaojogo}}</div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row m-1">
+                                                                    <div class="col-md-12">
+                                                                        <div><strong>O que MENOS gostou:</strong>:
+                                                                            {{feedback.oquemenosgostou}}</div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row  m-1">
+                                                                    <div class="col-md-12">
+                                                                        <div><strong>O que MAIS gostou:</strong>:
+                                                                            {{feedback.oquemenosgostou}}</div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row m-1">
+                                                                    <div class="col-md-12">
+                                                                        <div><strong>Observação:</strong>:
+                                                                            {{feedback.observacao}}</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            <small>feedbacks {{partida.feedbacks.length}}</small>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row fade " id="chartview" role="tabpanel" aria-labelledby="chartview-tab">
+                            <div class="row tab-pane fade " id="chartview" role="tabpanel" aria-labelledby="chartview-tab">
                                 <div class=" col-md-12">
                                     <canvas id="myChart" width="400" height="200"></canvas>
                                 </div>
@@ -137,7 +248,7 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Data</label>
-                                <input-date class="form-control" v-model="objPartida.data"></input-date>
+                                <input type="date" class="form-control" v-model="objPartida.data"></input>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="inputPassword4">Duracao (minutos)</label>

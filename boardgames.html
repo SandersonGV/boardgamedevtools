@@ -15,7 +15,8 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light static-top mb-5 shadow">
             <div class="container">
                 <a class="navbar-brand" href="#!"><i class="fas fa-box"></i>Boardgame dev tools</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -58,8 +59,8 @@
                     <nav class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top">
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item">
-                                <a class="nav-link" style="color: whitesmoke;" href="#!" data-toggle="modal" data-target="#myModal"
-                                    v-on:click="novoBoardgame">
+                                <a class="nav-link" style="color: whitesmoke;" href="#!" data-toggle="modal"
+                                    data-target="#myModal" v-on:click="novoBoardgame">
                                     <i class="far fa-lightbulb"></i> Novo
                                 </a>
 
@@ -78,34 +79,42 @@
                         <div class="card mt-3 mb-3 shadow " v-for="(boardgame,index) in boardgames">
                             <div class="card-header">
                                 <div class="d-flex">
-                                    <div class="flex-grow-1 ">
-                                        <button class="btn w-100 text-left bgTitle" type="button" data-toggle="collapse"
-                                            v-bind:data-target="'#collapse'+index" aria-expanded="true"
-                                            aria-controls="collapseOne">
+                                    <div class="d-flex">
+                                        <div class=" text-left flex-fill align-self-center ">
                                             {{boardgame.titulo}} ({{boardgame.ano}})
-                                        </button>
+                                        </div>
                                     </div>
-                                    <div class="p-1">
-                                        <button class="btn btn-info btn-sm "
-                                            v-on:click="editBoardgame(index)" data-toggle="modal"
-                                            data-target="#myModal"><i class="fas fa-pen"></i></button>
-                                    </div>
-                                    <div class="p-1">
-                                        <button class="btn btn-danger btn-sm "
-                                            v-on:click="if(confirm('excluir jogo?')){dropBoardgame(index)}"><i
-                                                class="fas fa-trash"></i></button>
+                                    <div class="d-flex ml-auto">
+
+                                        <div class="p-1">
+                                            <a class="btn btn-outline-dark btn-sm " aria-expanded="true"
+                                            :href="'#collapse'+index" data-toggle="collapse"
+                                                ><i class="fas fa-eye"></i></a>
+                                        </div>
+
+                                        <div class="p-1">
+                                            <button class="btn btn-outline-info btn-sm "
+                                                v-on:click="editBoardgame(index)" data-toggle="modal"
+                                                data-target="#myModal"><i class="fas fa-pen"></i></button>
+                                        </div>
+
+                                        <div class="p-1">
+                                            <button class="btn btn-outline-danger btn-sm "
+                                                v-on:click="if(confirm('excluir jogo?')){dropBoardgame(index)}"><i
+                                                    class="fas fa-trash"></i></button>
+                                        </div>
                                     </div>
                                 </div>
 
 
                             </div>
-                            <div v-bind:id="'collapse'+index" class="collapse" aria-labelledby="headingOne">
+                            <div v-bind:id="'collapse'+index" class="collapse" >
                                 <div class="card-body">
                                     <div class="d-flex justify-content-end ">
                                         <div class="p-1">
                                             <a class="btn btn-outline-info btn-sm "
-                                                :href="'/partidas.html?bgid='+boardgame._id"><i
-                                                    class="fas fa-file"></i> Partidas</a>
+                                                :href="'/partidas.html?bgid='+boardgame._id"><i class="fas fa-file"></i>
+                                                Partidas</a>
                                         </div>
                                         <div class="p-1">
                                             <a class="btn btn-outline-info btn-sm "
@@ -116,7 +125,8 @@
                                     <div class="row border p-2 m-2">
                                         <div class="col-md-2">
                                             <div v-if="boardgame.capaURL!=''">
-                                                <img v-bind:src="boardgame.capaURL" height="150px" onerror="appmanager.imgError(this)">
+                                                <img v-bind:src="boardgame.capaURL" height="150px"
+                                                    onerror="appmanager.imgError(this)">
                                             </div>
                                         </div>
                                         <div class="col-md-5">
@@ -167,7 +177,8 @@
                                     </div>
                                     <div class="row border p-2 m-2">
                                         <div class="col-3 p-2" v-for="img in boardgame.imagens">
-                                            <img height="150px" onerror="appmanager.imgError(this)" v-bind:src="img.url">
+                                            <img height="150px" onerror="appmanager.imgError(this)"
+                                                v-bind:src="img.url">
                                         </div>
                                     </div>
                                 </div>

@@ -80,7 +80,7 @@ class Partida{
         this._id = "";
         this.boardgameID= "";
         this.duracao = 0;
-        this.data = new Date();
+        this.data = "";
         this.quantidadejogadores = 1;
         this.local = "";
         this.oquefoitestado="";
@@ -95,7 +95,7 @@ class Partida{
         this._id = item._id;
         this.boardgameID= item.boardgameID;
         this.duracao =item.duracao;
-        this.data = new Date(item.data);
+        this.data = item.data;
         this.quantidadejogadores = item.quantidadejogadores;
         this.local = item.local;
         this.oquefoitestado=item.oquefoitestado;

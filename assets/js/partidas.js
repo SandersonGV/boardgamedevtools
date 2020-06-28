@@ -134,7 +134,7 @@ var myApp = new Vue({
         dangerMode: true,
       });
       if (resposta) {
-        let result = await appmanager.setPartida(partida);
+        let result = await appmanager.dropPartida(partida);
 
         if (result.status) {
           this.getPartidas();
@@ -146,45 +146,6 @@ var myApp = new Vue({
       }
     },
   },
-});
-
-Vue.component('input-date', {
-  template: '\
-        <input\
-          type="date"\
-          ref="input"\
-          v-bind:value="dateToYYYYMMDD(value)"\
-          v-on:input="updateValue($event.target)"\
-          v-on:focus="selectAll"\
-        >\
-    ',
-  props: {
-    value: {
-      type: Date,
-      default: new Date()
-    }
-  },
-  methods: {
-    dateToYYYYMMDD(date) {
-      // may have timezone caveats https://stackoverflow.com/a/29774197/1850609
-      var now = date;
-      var y = now.getFullYear();
-      var m = now.getMonth() + 1;
-      var d = now.getDate();
-      const stringdate = '' + y + "-" + (m < 10 ? '0' : '') + m + "-" + (d < 10 ? '0' : '') + d;
-      return date && stringdate
-    },
-    updateValue: function (target) {
-      this.$emit('input', target.valueAsDate);
-    },
-    selectAll: function (event) {
-      // Workaround for Safari bug
-      // https://stackoverflow.com/q/1269722/1850609
-      setTimeout(function () {
-        event.target.select()
-      }, 0)
-    },
-  }
 });
 
 
