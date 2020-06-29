@@ -9,6 +9,8 @@ class Boardgame {
         this.idadeMinima = 0;
         this.dependenciaIdioma = "";
         this.descricao = "";
+        this.mecanicas = [];
+        this.categoria = [];
         this.componentes = [];
         this.autores = "";
         this.artista = "";
@@ -37,6 +39,8 @@ class Boardgame {
         this.autores = item.autores;
         this.artista = item.artista;
         this.editora = item.editora;
+        this.mecanicas = item.mecanicas;
+        this.categoria =item.categoria;
         this.capaURL = item.capaURL;
         this.manualURL = item.manualURL;
         this.tabletopiaURL = item.tabletopiaURL;
@@ -142,5 +146,68 @@ var mertricas=[
     {valor:3, descricao:"far fa-meh", cor:'#aeb021'},
     {valor:4, descricao:"far fa-smile-beam", cor:'#69b021'},
     {valor:5, descricao:"far fa-grin-stars", cor:'#34b021'},
+]
+
+var mecanicas=[
+    {id:0,descricao:"Ação / Movimento Programado"},
+    {id:1,descricao:"Ação Simultânea"},
+    {id:2,descricao:"Alocação de Trabalhadores"},
+    {id:3,descricao:"Apostas"},
+    {id:4,descricao:"Atuação"},
+    {id:5,descricao:"Blefe"},
+    {id:6,descricao:"Campanha/ Batalhas Dirigidas por Cartas"},
+    {id:7,descricao:"Cantar"},
+    {id:8,descricao:"Cerco de Área"},
+    {id:9,descricao:"Colecionar Componentes"},
+    {id:10,descricao:"Colocação de Peças"},
+    {id:11,descricao:"Construção a partir de Modelo"},
+    {id:12,descricao:"Construção de Baralho/Peças"},
+    {id:13,descricao:"Construção de Rotas"},
+    {id:14,descricao:"Controle/Influência de Área"},
+    {id:15,descricao:"Cooperativo"},
+    {id:16,descricao:"Dedução"},
+    {id:17,descricao:"Desenhar"},
+    {id:18,descricao:"Desenhar Rota com Lápis"},
+    {id:19,descricao:"Eliminação de Jogadores"},
+    {id:20,descricao:"Especulação Financeira"},
+    {id:21,descricao:"Force sua sorte"},
+    {id:22,descricao:"Gestão de Mão"},
+    {id:23,descricao:"Impulso de Área"},
+    {id:24,descricao:"Jogadores com Diferentes Habilidades"},
+    {id:25,descricao:"Jogo em Equipe"},
+    {id:26,descricao:"Leilão"},
+    {id:27,descricao:"Linha de Tempo"},
+    {id:28,descricao:"Marcadores e Hexágonos"},
+    {id:29,descricao:"Memória"},
+    {id:30,descricao:"Mercado de Ações"},
+    {id:31,descricao:"Movimento de Área"},
+    {id:32,descricao:"Movimento em Grades"},
+    {id:33,descricao:"Movimento Ponto-a-Ponto"},
+    {id:34,descricao:"Narração de Histórias"},
+    {id:35,descricao:"Negociação"},
+    {id:36,descricao:"Ordem de Fases Variável"},
+    {id:37,descricao:"Papel e Caneta"},
+    {id:38,descricao:"Pedra, Papel e Tesoura"},
+    {id:39,descricao:"Pegar e Entregar"},
+    {id:40,descricao:"Posicionamento Secreto"},
+    {id:41,descricao:"Reconhecimento de Padrão"},
+    {id:42,descricao:"Rolagem de Dados"},
+    {id:43,descricao:"Rolar e Mover"},
+    {id:44,descricao:"RPG"},
+    {id:45,descricao:"Seleção de Cartas"},
+    {id:46,descricao:"Simulação"},
+    {id:47,descricao:"Sistema de Pontos de Ação"},
+    {id:48,descricao:"Sistema por Impulsos"},
+    {id:49,descricao:"Tabuleiro Modular"},
+    {id:50,descricao:"Tempo real"},
+    {id:51,descricao:"Toma essa"},
+    {id:52,descricao:"Vazas/Truques"},
+    {id:53,descricao:"Votação"},
+]
+
+var categorias = [
+    {id:0,descricao:"Jogos Infantis"},
+    {id:1,descricao:"Jogos Familiares"},
+    {id:2,descricao:"Jogos Expert"},
 ]
 
