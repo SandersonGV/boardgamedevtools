@@ -2,7 +2,7 @@ var myApp = new Vue({
     el: '#app',
     data: {
         myAuth: {},
-        objBoardgame: {},
+        pardidaInfo: {},
         pid: "",
         objFeedback : {}
     },
@@ -11,17 +11,31 @@ var myApp = new Vue({
         if (params.has("pid")) {
             this.pid = params.get("pid");
         }
+        this.loadContent();
     },
     mounted: function () {
         this.objPartida = new Partida();
     },
     methods: {
-      loadContent:function(){
-        
+      loadContent:async function(){
+        this.pardidaInfo.status = 99;
+        const result = await appwebmanager.getPartidaInfo(this.pid);
+        if(result.status){
+            this.pardidaInfo = result.json;
+        }else{
+            appwebmanager.openMessage("error", "Ocorreu um erro!");
+        }
       },
-      saveFeedback:function(){
+      saveFeedback: async function(){
+        const payload = {
+            partidaId : this.pid,
+            feedback : this.objFeedback
+        };
+        const result = await appwebmanager.saveFeedback(payload);
+        if(result.status){
 
+        }
       },
-
+      
     },
 });

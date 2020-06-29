@@ -5,7 +5,8 @@ var myApp = new Vue({
     objBoardgame: {},
     bgid: "",
     partidas: [],
-    objPartida: {}
+    objPartida: {},
+    statusList: 99,
   },
   created: async function () {
     this.myAuth = appmanager.auth();
@@ -98,12 +99,15 @@ var myApp = new Vue({
       if (result.status) {
         let json = result.status ? result.json : "";
         this.jsonToObjPartida(json);
+        this.statusList = 0;
 
       } else {
         appmanager.openMessage("warning", result.json.message);
       }
     },
     putPartida: async function (partida) {
+      this.statusList = 99;
+
       let result = await appmanager.putPartida(partida);
 
       if (result.status) {
@@ -115,6 +119,8 @@ var myApp = new Vue({
       }
     },
     setPartida: async function (partida) {
+      this.statusList = 99;
+
       let result = await appmanager.setPartida(partida);
 
       if (result.status) {
@@ -134,6 +140,7 @@ var myApp = new Vue({
         dangerMode: true,
       });
       if (resposta) {
+        this.statusList = 99;
         let result = await appmanager.dropPartida(partida);
 
         if (result.status) {

@@ -4,6 +4,7 @@ var myApp = new Vue({
         Auth0Lock: {},
         AuthResult: {},
         Perfil: null,
+        status:99
         
     },
     created: function () {
@@ -59,7 +60,6 @@ var myApp = new Vue({
                 }
                 this.Perfil = profile;
                 this.resumeSession();
-
             }
         },
         checkSession: function () {
@@ -68,6 +68,7 @@ var myApp = new Vue({
         checkSessionResult: function (error, authResult) {
             if (error || !authResult) {
                 this.Auth0Lock.show();
+                this.status=0;
             } else {
                 this.AuthResult = authResult;
                 this.Auth0Lock.getUserInfo(authResult.accessToken, this.getProfileSession);
@@ -75,6 +76,7 @@ var myApp = new Vue({
         },
         getProfileSession: function (error, profile) {
             this.Perfil = profile;
+            this.status=1;
         }
 
     },

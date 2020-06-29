@@ -4,8 +4,10 @@ var myApp = new Vue({
         infos: [],
         boardgames: [],
         baseBoardgameList: [],
+        status:99
     },
     created: async function () {
+
         appmanager.auth();
         let bgs = appmanager.getSession('boardgames');
         if (!bgs) {
@@ -57,7 +59,7 @@ var myApp = new Vue({
                 { titulo: 'Jogos para crianças', valor: jogosInfantil.length, cor: '#cf1199', icon: "fas fa-child",  },
                 { titulo: 'Jogos com manual', valor: jogosComManual.length, cor: '#20ad0e', icon: "fas fa-scroll",  },
             );
-
+            this.status =0;
         },
 
     },

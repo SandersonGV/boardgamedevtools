@@ -71,6 +71,23 @@ appmanager.putBoardgame = async (boardgame) => {
     let json = await appmanager.request(url, obj);
     return json;
 }
+
+appmanager.dropBoardgame= async (boardgame) => {
+    let url = 'https://boardgamelibrary-36a8.restdb.io/rest/boardgames/' + boardgame._id;
+    let data = JSON.stringify(boardgame);
+    let obj = {
+        method: 'DELETE',
+        headers: {
+            "content-type": "application/json",
+            'Authorization': "Bearer " + appmanager.appkey
+        },
+        body: data,
+    };
+
+    let json = await appmanager.request(url, obj);
+    return json;
+}
+
 //partidas
 appmanager.getPartidas = async (boardgameID) => {
     let url = 'https://boardgamelibrary-36a8.restdb.io/rest/partidas?q={"boardgameID":"'+boardgameID+'"}';

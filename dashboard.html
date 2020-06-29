@@ -53,9 +53,13 @@
         <!-- Page Content -->
         <div class="container">
             <div class="card border-0 shadow my-5">
+                <div class="card-header ">
+                <h1 class="font-weight-light">
+                    Dashboard
+                </h1>
+                </div>
                 <div class="card-body p-5">
-                    <h1 class="font-weight-light">Dashboard</h1>
-                    <div class="row mb-3">
+                    <div v-if="status == 0" class="row mb-3">
                         <div class="col-xl-4 col-sm-6 py-2" v-for="(info, index) in infos">
                             <div class="card bg-light text-white h-80 ">
                                 <div class="card-body text-right " :style="'background-color:'+info.cor ">
@@ -68,7 +72,14 @@
 
                         </div>
                     </div>
-                    <div style="height: 300px "></div>
+                            <div v-if="status == 99">
+                                <div class="text-center m-5">
+                                    <div class="spinner-grow text-larger" role="status">
+                                    </div>
+                                    <h3>carregando...</h3>
+                                </div>
+                            </div>
+                    <div style="height: 100px "></div>
                     <p class="lead mb-0 ">Feito na casa do goblin!</p>
                 </div>
             </div>

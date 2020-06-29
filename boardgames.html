@@ -53,9 +53,13 @@
         <!-- Page Content -->
         <div class="container-md">
             <div class="card border-0 shadow my-5">
+                <div class="card-header">
+                    <h1 class="font-weight-light">
+                        <a href="/dashboard.html" class="btn btn-light"><i class="fas fa-chevron-left"></i></a>
+                        Boardgames
+                    </h1>
+                </div>
                 <div class="card-body">
-                    <h1 class="font-weight-light">Boardgames</h1>
-
                     <nav class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top">
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item">
@@ -72,124 +76,138 @@
                                 aria-label="Search" v-on:keyup="filterBoardgame">
                         </div>
                     </nav>
+                    <div v-if="status == 0">
+                        <div>{{titulo}}: {{boardgames.length}}</div>
+                        <div id="boardgameList">
 
-                    <div>{{titulo}}: {{boardgames.length}}</div>
-                    <div class="accordion" id="boardgameList">
-
-                        <div class="card mt-3 mb-3 shadow " v-for="(boardgame,index) in boardgames">
-                            <div class="card-header">
-                                <div class="d-flex">
+                            <div class="card mt-2" v-for="(boardgame,index) in boardgames">
+                                <div class="card-header">
                                     <div class="d-flex">
-                                        <div class=" text-left flex-fill align-self-center ">
-                                            {{boardgame.titulo}} ({{boardgame.ano}})
+                                        <div class="d-flex">
+                                            <div class=" text-left flex-fill align-self-center ">
+                                                {{boardgame.titulo}} ({{boardgame.ano}})
+                                            </div>
+                                        </div>
+                                        <div class="d-flex ml-auto">
+
+                                            <div class="p-1">
+                                                <a class="btn btn-outline-dark btn-sm " aria-expanded="true"
+                                                    :href="'#collapse'+index" data-toggle="collapse"><i
+                                                        class="fas fa-eye"></i></a>
+                                            </div>
+
+                                            <div class="p-1">
+                                                <button class="btn btn-outline-info btn-sm "
+                                                    v-on:click="editBoardgame(index)" data-toggle="modal"
+                                                    data-target="#myModal"><i class="fas fa-pen"></i></button>
+                                            </div>
+
+                                            <div class="p-1">
+                                                <button class="btn btn-outline-danger btn-sm "
+                                                    v-on:click="dropBoardgame(boardgame)"><i
+                                                        class="fas fa-trash"></i></button>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="d-flex ml-auto">
 
-                                        <div class="p-1">
-                                            <a class="btn btn-outline-dark btn-sm " aria-expanded="true"
-                                            :href="'#collapse'+index" data-toggle="collapse"
-                                                ><i class="fas fa-eye"></i></a>
+
+                                </div>
+                                <div v-bind:id="'collapse'+index" class="collapse">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-end ">
+                                            <div class="p-1">
+                                                <a class="btn btn-outline-info btn-sm "
+                                                    :href="'/partidas.html?bgid='+boardgame._id"><i
+                                                        class="fas fa-file"></i>
+                                                    Partidas</a>
+                                            </div>
+                                            <div class="p-1">
+                                                <a class="btn btn-outline-info btn-sm "
+                                                target="_blank"
+                                                    :href="'/sellsheet.html?bgid='+boardgame._id"><i
+                                                        class="fas fa-print"></i> Sellsheet</a>
+                                            </div>
+                                        </div>
+                                        <div class="row border p-2 m-2">
+                                            <div class="col-md-2">
+                                                <div v-if="boardgame.capaURL!=''">
+                                                    <img v-bind:src="boardgame.capaURL" height="150px"
+                                                        onerror="appmanager.imgError(this)">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div><strong>Autores</strong>: {{boardgame.autores}}</div>
+                                                <div><strong>Artistas</strong>: {{boardgame.artista}}</div>
+                                                <div><strong>Editora</strong>: {{boardgame.editora}} </div>
+                                                <div><strong>Número de jogadores</strong>: {{boardgame.jogadoresDe}} a
+                                                    {{boardgame.jogadoresAte}}</div>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div><strong>Tempo medio</strong>: {{boardgame.duracaoMedia}} minutos
+                                                </div>
+                                                <div><strong>Idade minima</strong>: {{boardgame.idadeMinima}} anos</div>
+                                                <div><strong>Possui dependencia de idioma</strong>:
+                                                    {{boardgame.dependenciaIdioma}}
+                                                </div>
+                                                <div v-if="boardgame.manualURL!=''"><strong>Link para o manual</strong>:
+                                                    <a v-bind:href="boardgame.manualURL" target="_blank"><i
+                                                            class="fas fa-book"></i>
+                                                        Manual</a></div>
+                                            </div>
                                         </div>
 
-                                        <div class="p-1">
-                                            <button class="btn btn-outline-info btn-sm "
-                                                v-on:click="editBoardgame(index)" data-toggle="modal"
-                                                data-target="#myModal"><i class="fas fa-pen"></i></button>
+                                        <div class="row border p-2 m-2">
+                                            <div class="col">
+                                                <strong>Descrição</strong>: {{boardgame.descricao}}<br>
+                                            </div>
                                         </div>
-
-                                        <div class="p-1">
-                                            <button class="btn btn-outline-danger btn-sm "
-                                                v-on:click="if(confirm('excluir jogo?')){dropBoardgame(index)}"><i
-                                                    class="fas fa-trash"></i></button>
+                                        <div class="row border p-2 m-2">
+                                            <div class="col">
+                                                <div><strong>Componentes</strong>:</div>
+                                                <div v-for="componente in boardgame.componentes">
+                                                    Qtd: {{componente.quantidade}} - {{componente.tipo}} -
+                                                    {{componente.tamanho}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row border p-2 m-2">
+                                            <div class="col">
+                                                <div><strong>Tabletopia</strong></div>
+                                                <div><strong>Email de aceso</strong>: {{boardgame.tabletopiaEmail}}
+                                                </div>
+                                                <div><strong>Senha de aceso</strong>: {{boardgame.tabletopiaSenha}}
+                                                </div>
+                                                <div v-if="boardgame.tabletopiaURL!=''">
+                                                    <strong>Link para criar a sala</strong>: <a
+                                                        v-bind:href="boardgame.tabletopiaURL" target="_blank"><i
+                                                            class="fas fa-book"></i> Criar sala tabletopia</a><br>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row border p-2 m-2">
+                                            <div class="col-3 p-2" v-for="img in boardgame.imagens">
+                                                <img height="150px" onerror="appmanager.imgError(this)"
+                                                    v-bind:src="img.url">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
-
-                            </div>
-                            <div v-bind:id="'collapse'+index" class="collapse" >
-                                <div class="card-body">
-                                    <div class="d-flex justify-content-end ">
-                                        <div class="p-1">
-                                            <a class="btn btn-outline-info btn-sm "
-                                                :href="'/partidas.html?bgid='+boardgame._id"><i class="fas fa-file"></i>
-                                                Partidas</a>
-                                        </div>
-                                        <div class="p-1">
-                                            <a class="btn btn-outline-info btn-sm "
-                                                :href="'/sellsheet.html?bgid='+boardgame._id"><i
-                                                    class="fas fa-print"></i> Sellsheet</a>
-                                        </div>
-                                    </div>
-                                    <div class="row border p-2 m-2">
-                                        <div class="col-md-2">
-                                            <div v-if="boardgame.capaURL!=''">
-                                                <img v-bind:src="boardgame.capaURL" height="150px"
-                                                    onerror="appmanager.imgError(this)">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-5">
-                                            <div><strong>Autores</strong>: {{boardgame.autores}}</div>
-                                            <div><strong>Artistas</strong>: {{boardgame.artista}}</div>
-                                            <div><strong>Editora</strong>: {{boardgame.editora}} </div>
-                                            <div><strong>Número de jogadores</strong>: {{boardgame.jogadoresDe}} a
-                                                {{boardgame.jogadoresAte}}</div>
-                                        </div>
-                                        <div class="col-md-5">
-                                            <div><strong>Tempo medio</strong>: {{boardgame.duracaoMedia}} minutos</div>
-                                            <div><strong>Idade minima</strong>: {{boardgame.idadeMinima}} anos</div>
-                                            <div><strong>Possui dependencia de idioma</strong>:
-                                                {{boardgame.dependenciaIdioma}}
-                                            </div>
-                                            <div v-if="boardgame.manualURL!=''"><strong>Link para o manual</strong>: <a
-                                                    v-bind:href="boardgame.manualURL" target="_blank"><i
-                                                        class="fas fa-book"></i>
-                                                    Manual</a></div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row border p-2 m-2">
-                                        <div class="col">
-                                            <strong>Descrição</strong>: {{boardgame.descricao}}<br>
-                                        </div>
-                                    </div>
-                                    <div class="row border p-2 m-2">
-                                        <div class="col">
-                                            <div><strong>Componentes</strong>:</div>
-                                            <div v-for="componente in boardgame.componentes">
-                                                Qtd: {{componente.quantidade}} - {{componente.tipo}} -
-                                                {{componente.tamanho}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row border p-2 m-2">
-                                        <div class="col">
-                                            <div><strong>Tabletopia</strong></div>
-                                            <div><strong>Email de aceso</strong>: {{boardgame.tabletopiaEmail}}</div>
-                                            <div><strong>Senha de aceso</strong>: {{boardgame.tabletopiaSenha}}</div>
-                                            <div v-if="boardgame.tabletopiaURL!=''">
-                                                <strong>Link para criar a sala</strong>: <a
-                                                    v-bind:href="boardgame.tabletopiaURL" target="_blank"><i
-                                                        class="fas fa-book"></i> Criar sala tabletopia</a><br>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row border p-2 m-2">
-                                        <div class="col-3 p-2" v-for="img in boardgame.imagens">
-                                            <img height="150px" onerror="appmanager.imgError(this)"
-                                                v-bind:src="img.url">
-                                        </div>
+                                <div class="card-footer">
+                                    <div class="float-right">
+                                        Estágio de desenvolvimento: {{boardgame.estagio}}
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-footer">
-                                <div class="float-right">
-                                    Estágio de desenvolvimento: {{boardgame.estagio}}
-                                </div>
-                            </div>
+
                         </div>
+                    </div>
 
+                    <div v-if="status == 99">
+                        <div class="text-center m-5">
+                            <div class="spinner-grow text-larger" role="status">
+                            </div>
+                            <h3>carregando...</h3>
+                        </div>
                     </div>
                     <div style="height: 100px "></div>
                     <p class="lead mb-0 ">Feito na casa do goblin!</p>

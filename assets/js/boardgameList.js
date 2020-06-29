@@ -7,6 +7,7 @@ var myApp = new Vue({
         baseBoardgameList: [],
         tipoDeLista: 0,
         titulo: "",
+        status: 99
     },
     created: async function () {
         this.myAuth = appmanager.auth();
@@ -49,6 +50,8 @@ var myApp = new Vue({
 
         },
         addBoardgame: function () {
+            this.status = 99;
+
             if (this.estado == 'novo') {
                 this.setItem(this.objBoardgame);
             } else {
@@ -60,8 +63,26 @@ var myApp = new Vue({
             this.estado = index;
             this.objBoardgame = this.boardgames[index];
         },
-        dropBoardgame: function (index) {
-            this.boardgames.splice(index, 1);
+        dropBoardgame: async function (boardgame) {
+            let resposta = await swal({
+                title: "Esta certo disso?",
+                text: "Apos deletar não será possivel recuperar!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+              });
+              if (resposta) {
+                this.status = 99;
+                let result = await appmanager.dropBoardgame(boardgame);
+        
+                if (result.status) {
+                  this.getItems();
+                  appmanager.openMessage("succes", "boardgame excluido");
+        
+                } else {
+                  appmanager.openMessage("warning", result.json.message);
+                }
+              }
         },
         jsonToObj: function (stringJson) {
             let loadobj = stringJson;
@@ -111,14 +132,15 @@ var myApp = new Vue({
                     this.titulo = 'Todos os jogos';
                     break;
             }
+            this.status = 0;
 
         },
         getItems: async function () {
             const result = await appmanager.getBoardgames();
-
             if (result.status) {
                 let json = result.status ? result.json : "";
                 this.jsonToObj(json);
+                
 
             } else {
                 appmanager.openMessage("warning", result.json.message);

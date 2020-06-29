@@ -14,6 +14,22 @@
             justify-content: flex-end !important;
             align-items: center !important;
         }
+
+        .dlk-radio input[type="radio"],
+        .dlk-radio input[type="checkbox"] {
+            margin-left: -99999px;
+            display: none;
+        }
+
+        .dlk-radio input[type="radio"]+.far,
+        .dlk-radio input[type="checkbox"]+.far {
+            opacity: 0.15
+        }
+
+        .dlk-radio input[type="radio"]:checked+.far,
+        .dlk-radio input[type="checkbox"]:checked+.far {
+            opacity: 1
+        }
     </style>
 </head>
 
@@ -60,8 +76,13 @@
         <!-- Page Content -->
         <div class="container-md">
             <div class="card border-0 shadow my-5">
+                <div class="card-header">
+                    <h1 class="font-weight-light"> 
+                        <a onclick="self.history.back()" class="btn btn-light"><i class="fas fa-chevron-left"></i></a>
+                        
+                        {{objBoardgame.titulo?objBoardgame.titulo+' - ':""}} Partidas</h1>
+                </div>
                 <div class="card-body">
-                    <h1 class="font-weight-light"> {{objBoardgame.titulo?objBoardgame.titulo+' - ':""}} Partidas</h1>
                     <div class="content">
                         <div class="row">
                             <div class="col-md-12">
@@ -86,122 +107,133 @@
                                     <button type="button" class="btn btn-outline-primary btn-sm" @click="novaPartida()">
                                         <i class="fas fa-sticky-note"></i> Nova partida
                                     </button>
-                                    <div class="card mt-2" v-for="(partida, indice) in partidas">
-                                        <div class="card-header d-flex ">
-                                            <div class="flex-fill align-self-center"
-                                                 style="font-size: larger;">
-                                                <strong>Data</strong>: {{new Date(partida.data).toLocaleDateString()}}
-                                                <strong>Local</strong>: {{partida.local}}
-                                            </div>
-                                            <div class="d-flex ml-auto">
-                                                <a :href="'#collapsePartida'+indice" type="button " class="btn btn-outline-dark btn-sm m-1"
-                                                data-toggle="collapse">
-                                                <i class="fas fa-eye"></i>
-                                                </a>
-                                                <button type="button " class="btn btn-outline-info btn-sm m-1"
-                                                    @click="partidaSelect(partida)">
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                                <button type="button " class="btn btn-outline-danger btn-sm m-1"
-                                                    @click="dropPartida(partida)">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="card-body collapse" :id="'collapsePartida'+indice">
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <div><strong>Duração</strong>: {{partida.duracao}} minutos</div>
-                                                    <div><strong>Quem ganhou</strong>? {{partida.quemganhou}} º jogador
-                                                    </div>
+                                    <div v-if="statusList == 0">
+                                        <div class="card mt-2" v-for="(partida, indice) in partidas">
+                                            <div class="card-header d-flex ">
+                                                <div class="flex-fill align-self-center" style="font-size: larger;">
+                                                    <strong>Data</strong>:
+                                                    {{new Date(partida.data).toLocaleDateString()}}
+                                                    <strong>Local</strong>: {{partida.local}}
                                                 </div>
-                                                <div class="col-md-8">
-                                                    <div><strong>Quantidade de jogadores</strong>:
-                                                        {{partida.quantidadejogadores}}</div>
-                                                    <div><strong>Link para feedback externo</strong>:
-                                                        <a v-if="partida.feedbackexterno" target="_blank" :href="self.location.origin+'/feedback.html?pid='+partida._id" > {{ self.location.origin+'/feedback.html?pid='+partida._id }}</a> 
-                                                        <span v-else >não</span>
-                                                    </div>
+                                                <div class="d-flex ml-auto">
+                                                    <a :href="'#collapsePartida'+indice" type="button "
+                                                        class="btn btn-outline-dark btn-sm m-1" data-toggle="collapse">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                    <button type="button " class="btn btn-outline-info btn-sm m-1"
+                                                        @click="partidaSelect(partida)">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button type="button " class="btn btn-outline-danger btn-sm m-1"
+                                                        @click="dropPartida(partida)">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div><strong>Feedbacks</strong>: {{partida.feedbacks.length}}</div>
-                                                </div>
-                                            </div>
-                                            <div class="row mt-2" v-if="partida.feedbacks.length>0">
-                                                <div class="col-md-12">
-                                                    <div class="card ">
-                                                        <div class="card-header">
-                                                            <ul class="nav nav-tabs card-header-tabs" role="tablist">
-                                                                <li v-for="(feedback, index) in partida.feedbacks"
-                                                                    class="nav-item" role="presentation">
-                                                                    <a :class="'nav-link '+(index==0? 'active':'')"
-                                                                        data-toggle="tab" :href="'#feed-'+index"
-                                                                        role="tab" :aria-controls="'feed-'+index"
-                                                                        :aria-selected="''+index==0"
-                                                                        :id="'#feed-tab'+index">
-                                                                        #{{index}}</a>
-                                                                </li>
-                                                            </ul>
+                                            <div class="card-body collapse" :id="'collapsePartida'+indice">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div><strong>Duração</strong>: {{partida.duracao}} minutos</div>
+                                                        <div><strong>Quem ganhou</strong>? {{partida.quemganhou}} º
+                                                            jogador
                                                         </div>
-                                                        <div class="tab-content card-body">
-                                                            <div v-for="(feedback, index) in partida.feedbacks" s
-                                                                :class="'tab-pane fade  '+(index==0? 'show active':'')"
-                                                                :id="'feed-'+index" role="tabpanel"
-                                                                :aria-labelledby="'feed-tab'+index">
-                                                                <div class="row m-1">
-                                                                    <div class="col-md-4">
-                                                                        <div><strong>Jogador</strong>:
-                                                                            {{feedback.nomejogador}}</div>
-                                                                        <div><strong>Idade</strong>: {{feedback.idade}}
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <div><strong>Quantidade de jogadores</strong>:
+                                                            {{partida.quantidadejogadores}}</div>
+                                                        <div><strong>Link para feedback externo</strong>:
+                                                            <a v-if="partida.feedbackexterno" target="_blank"
+                                                                :href="self.location.origin+'/feedback.html?pid='+partida._id">
+                                                                {{ self.location.origin+'/feedback.html?pid='+partida._id }}</a>
+                                                            <span v-else>não</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div><strong>Feedbacks</strong>: {{partida.feedbacks.length}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-2" v-if="partida.feedbacks.length>0">
+                                                    <div class="col-md-12">
+                                                        <div class="card ">
+                                                            <div class="card-header">
+                                                                <ul class="nav nav-tabs card-header-tabs"
+                                                                    role="tablist">
+                                                                    <li v-for="(feedback, index) in partida.feedbacks"
+                                                                        class="nav-item" role="presentation">
+                                                                        <a :class="'nav-link '+(index==0? 'active':'')"
+                                                                            data-toggle="tab" :href="'#feed-'+index"
+                                                                            role="tab" :aria-controls="'feed-'+index"
+                                                                            :aria-selected="''+index==0"
+                                                                            :id="'#feed-tab'+index">
+                                                                            #{{index}}</a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                            <div class="tab-content card-body">
+                                                                <div v-for="(feedback, index) in partida.feedbacks" s
+                                                                    :class="'tab-pane fade  '+(index==0? 'show active':'')"
+                                                                    :id="'feed-'+index" role="tabpanel"
+                                                                    :aria-labelledby="'feed-tab'+index">
+                                                                    <div class="row m-1">
+                                                                        <div class="col-md-4">
+                                                                            <div><strong>Jogador</strong>:
+                                                                                {{feedback.nomejogador}}</div>
+                                                                            <div><strong>Idade</strong>:
+                                                                                {{feedback.idade}}
+                                                                            </div>
+                                                                            <div><strong>Email</strong>:
+                                                                                {{feedback.email}}
+                                                                            </div>
                                                                         </div>
-                                                                        <div><strong>Email</strong>: {{feedback.email}}
+                                                                        <div class="col-md-4">
+                                                                            <div><strong>Pontuação</strong>:
+                                                                                {{feedback.pontuacao}}</div>
+                                                                            <div><strong>Receber notificação</strong>:
+                                                                                {{feedback.acompanhar?'sim': 'não'}}
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-md-4">
-                                                                        <div><strong>Pontuação</strong>:
-                                                                            {{feedback.pontuacao}}</div>
-                                                                        <div><strong>Receber notificação</strong>:
-                                                                            {{feedback.acompanhar?'sim': 'não'}}</div>
+                                                                    <div class="row border m-1 p-2">
+                                                                        <div class="col-md-4">
+                                                                            <div><strong>Eu me diverti</strong>:
+                                                                                {{feedback.mediverti}}</div>
+                                                                            <div><strong>eu gstei da durção</strong>:
+                                                                                {{feedback.gosteidaduracao}}</div>
+                                                                            <div><strong>As regras ficaram
+                                                                                    claras</strong>:
+                                                                                {{feedback.regrasficaramclaras}}</div>
+                                                                            <div><strong>O jogo é original</strong>:
+                                                                                {{feedback.jogooriginal}}</div>
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                            <div><strong>Jogo bem estrategico</strong>:
+                                                                                {{feedback.jogobemestrategico}}</div>
+                                                                            <div><strong>Jogaria novamente</strong>:
+                                                                                {{feedback.jogarianovamente}}</div>
+                                                                            <div><strong>Compraria o jogo</strong>:
+                                                                                {{feedback.comprariaojogo}}</div>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="row border m-1 p-2">
-                                                                    <div class="col-md-4">
-                                                                        <div><strong>Eu me diverti</strong>:
-                                                                            {{feedback.mediverti}}</div>
-                                                                        <div><strong>eu gstei da durção</strong>:
-                                                                            {{feedback.gosteidaduracao}}</div>
-                                                                        <div><strong>As regras ficaram claras</strong>:
-                                                                            {{feedback.regrasficaramclaras}}</div>
-                                                                        <div><strong>O jogo é original</strong>:
-                                                                            {{feedback.jogooriginal}}</div>
+                                                                    <div class="row m-1">
+                                                                        <div class="col-md-12">
+                                                                            <div><strong>O que MENOS gostou:</strong>:
+                                                                                {{feedback.oquemenosgostou}}</div>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="col-md-4">
-                                                                        <div><strong>Jogo bem estrategico</strong>:
-                                                                            {{feedback.jogobemestrategico}}</div>
-                                                                        <div><strong>Jogaria novamente</strong>:
-                                                                            {{feedback.jogarianovamente}}</div>
-                                                                        <div><strong>Compraria o jogo</strong>:
-                                                                            {{feedback.comprariaojogo}}</div>
+                                                                    <div class="row  m-1">
+                                                                        <div class="col-md-12">
+                                                                            <div><strong>O que MAIS gostou:</strong>:
+                                                                                {{feedback.oquemenosgostou}}</div>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="row m-1">
-                                                                    <div class="col-md-12">
-                                                                        <div><strong>O que MENOS gostou:</strong>:
-                                                                            {{feedback.oquemenosgostou}}</div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row  m-1">
-                                                                    <div class="col-md-12">
-                                                                        <div><strong>O que MAIS gostou:</strong>:
-                                                                            {{feedback.oquemenosgostou}}</div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row m-1">
-                                                                    <div class="col-md-12">
-                                                                        <div><strong>Observação:</strong>:
-                                                                            {{feedback.observacao}}</div>
+                                                                    <div class="row m-1">
+                                                                        <div class="col-md-12">
+                                                                            <div><strong>Observação:</strong>:
+                                                                                {{feedback.observacao}}</div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -209,14 +241,22 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="card-footer">
+                                                <small>feedbacks {{partida.feedbacks.length}}</small>
+                                            </div>
                                         </div>
-                                        <div class="card-footer">
-                                            <small>feedbacks {{partida.feedbacks.length}}</small>
+                                    </div>
+                                    <div v-if="statusList == 99">
+                                        <div class="text-center m-5">
+                                            <div class="spinner-grow text-larger" role="status">
+                                            </div>
+                                            <h3>carregando...</h3>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row tab-pane fade " id="chartview" role="tabpanel" aria-labelledby="chartview-tab">
+                            <div class="row tab-pane fade " id="chartview" role="tabpanel"
+                                aria-labelledby="chartview-tab">
                                 <div class=" col-md-12">
                                     <canvas id="myChart" width="400" height="200"></canvas>
                                 </div>
@@ -340,115 +380,89 @@
                                             <label>Sobre as afirmações abaixo </label>
                                         </div>
                                     </div>
-                                    <div class="form-row">
-                                        <div class=" col-md-4 radiolabel ">
-                                            <span>Me diverti: </span>
-                                        </div>
-                                        <div class=" col-md-8">
-                                            <div class="form-check form-check-inline" v-for="metrica in mertricas">
-                                                <input class="form-check-input m-1" type="radio"
-                                                    :id="'mediverti'+metrica.valor" :value="metrica.valor"
-                                                    v-model="feedback.mediverti">
-                                                <label class="form-check-label"
-                                                    :style="'font-size: xx-large; color:'+ metrica.cor "
-                                                    :for="'mediverti'+metrica.valor"><i
-                                                        :class="metrica.descricao"></i></label>
+                                    <div class="row d-flex flex-wrap">
+                                        <div class="p-2 text-center">
+                                            <h5>Me diverti:</h5>
+                                            <div class="dlk-radio btn-group">
+                                                <label v-for="metrica in mertricas" class="btn btn-default btn-sm"
+                                                    :style="'font-size: xx-large; background-color:'+ metrica.cor ">
+                                                    <input :id="'mediverti'+metrica.valor" class="form-control"
+                                                        type="radio" :value="metrica.valor"
+                                                        v-model="feedback.mediverti">
+                                                    <i :class="metrica.descricao"></i>
+                                                </label>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class=" col-md-4 radiolabel">
-                                            <span>Eu Gostei da duração: </span>
-                                        </div>
-                                        <div class=" col-md-8">
-                                            <div class="form-check form-check-inline" v-for="metrica in mertricas">
-                                                <input class="form-check-input m-1" type="radio"
-                                                    :id="'gosteidaduracao'+metrica.valor" :value="metrica.valor"
-                                                    v-model="feedback.gosteidaduracao">
-                                                <label class="form-check-label"
-                                                    :style="'font-size: xx-large; color:'+ metrica.cor "
-                                                    :for="'gosteidaduracao'+metrica.valor"><i
-                                                        :class="metrica.descricao"></i></label>
+                                        <div class="p-2 text-center">
+                                            <h5>Eu Gostei da duração:</h5>
+                                            <div class="dlk-radio btn-group">
+                                                <label v-for="metrica in mertricas" class="btn btn-default btn-sm"
+                                                    :style="'font-size: xx-large; background-color:'+ metrica.cor ">
+                                                    <input :id="'gosteidaduracao'+metrica.valor" class="form-control"
+                                                        type="radio" :value="metrica.valor"
+                                                        v-model="feedback.gosteidaduracao">
+                                                    <i :class="metrica.descricao"></i>
+                                                </label>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class=" col-md-4 radiolabel">
-                                            <span>As regras ficaram claras: </span>
-                                        </div>
-                                        <div class=" col-md-8">
-                                            <div class="form-check form-check-inline" v-for="metrica in mertricas">
-                                                <input class="form-check-input m-1" type="radio"
-                                                    :id="'regrasficaramclaras'+metrica.valor" :value="metrica.valor"
-                                                    v-model="feedback.regrasficaramclaras">
-                                                <label class="form-check-label"
-                                                    :style="'font-size: xx-large; color:'+ metrica.cor "
-                                                    :for="'regrasficaramclaras'+metrica.valor"><i
-                                                        :class="metrica.descricao"></i></label>
+                                        <div class="p-2 text-center">
+                                            <h5>As regras ficaram claras:</h5>
+                                            <div class="dlk-radio btn-group">
+                                                <label v-for="metrica in mertricas" class="btn btn-default btn-sm"
+                                                    :style="'font-size: xx-large; background-color:'+ metrica.cor ">
+                                                    <input :id="'regrasficaramclaras'+metrica.valor"
+                                                        class="form-control" type="radio" :value="metrica.valor"
+                                                        v-model="feedback.regrasficaramclaras">
+                                                    <i :class="metrica.descricao"></i>
+                                                </label>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class=" col-md-4 radiolabel">
-                                            <span>É um jogo original: </span>
-                                        </div>
-                                        <div class=" col-md-8">
-                                            <div class="form-check form-check-inline" v-for="metrica in mertricas">
-                                                <input class="form-check-input m-1" type="radio"
-                                                    :id="'jogooriginal'+metrica.valor" :value="metrica.valor"
-                                                    v-model="feedback.jogooriginal">
-                                                <label class="form-check-label"
-                                                    :style="'font-size: xx-large; color:'+ metrica.cor "
-                                                    :for="'jogooriginal'+metrica.valor"><i
-                                                        :class="metrica.descricao"></i></label>
+                                        <div class="p-2 text-center">
+                                            <h5>É um jogo original:</h5>
+                                            <div class="dlk-radio btn-group">
+                                                <label v-for="metrica in mertricas" class="btn btn-default btn-sm"
+                                                    :style="'font-size: xx-large; background-color:'+ metrica.cor ">
+                                                    <input :id="'jogooriginal'+metrica.valor" class="form-control"
+                                                        type="radio" :value="metrica.valor"
+                                                        v-model="feedback.jogooriginal">
+                                                    <i :class="metrica.descricao"></i>
+                                                </label>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class=" col-md-4 radiolabel">
-                                            <span>É um jogo bem estratégico: </span>
-                                        </div>
-                                        <div class=" col-md-8">
-                                            <div class="form-check form-check-inline" v-for="metrica in mertricas">
-                                                <input class="form-check-input m-1" type="radio"
-                                                    :id="'jogobemestrategico'+metrica.valor" :value="metrica.valor"
-                                                    v-model="feedback.jogobemestrategico">
-                                                <label class="form-check-label"
-                                                    :style="'font-size: xx-large; color:'+ metrica.cor "
-                                                    :for="'jogobemestrategico'+metrica.valor"><i
-                                                        :class="metrica.descricao"></i></label>
+                                        <div class="p-2 text-center">
+                                            <h5>É um jogo bem estratégico:</h5>
+                                            <div class="dlk-radio btn-group">
+                                                <label v-for="metrica in mertricas" class="btn btn-default btn-sm"
+                                                    :style="'font-size: xx-large; background-color:'+ metrica.cor ">
+                                                    <input :id="'jogobemestrategico'+metrica.valor" class="form-control"
+                                                        type="radio" :value="metrica.valor"
+                                                        v-model="feedback.jogobemestrategico">
+                                                    <i :class="metrica.descricao"></i>
+                                                </label>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class=" col-md-4 radiolabel">
-                                            <span>Eu jogaria novamente: </span>
-                                        </div>
-                                        <div class=" col-md-8">
-                                            <div class="form-check form-check-inline" v-for="metrica in mertricas">
-                                                <input class="form-check-input m-1" type="radio"
-                                                    :id="'jogarianovamente'+metrica.valor" :value="metrica.valor"
-                                                    v-model="feedback.jogarianovamente">
-                                                <label class="form-check-label"
-                                                    :style="'font-size: xx-large; color:'+ metrica.cor "
-                                                    :for="'jogarianovamente'+metrica.valor"><i
-                                                        :class="metrica.descricao"></i></label>
+                                        <div class="p-2 text-center">
+                                            <h5>Eu jogaria novamente:</h5>
+                                            <div class="dlk-radio btn-group">
+                                                <label v-for="metrica in mertricas" class="btn btn-default btn-sm"
+                                                    :style="'font-size: xx-large; background-color:'+ metrica.cor ">
+                                                    <input :id="'jogarianovamente'+metrica.valor" class="form-control"
+                                                        type="radio" :value="metrica.valor"
+                                                        v-model="feedback.jogarianovamente">
+                                                    <i :class="metrica.descricao"></i>
+                                                </label>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class=" col-md-4 radiolabel">
-                                            <span>Eu compraria o jogo: </span>
-                                        </div>
-                                        <div class=" col-md-8">
-                                            <div class="form-check form-check-inline" v-for="metrica in mertricas">
-                                                <input class="form-check-input m-1" type="radio"
-                                                    :id="'comprariaojogo'+metrica.valor" :value="metrica.valor"
-                                                    v-model="feedback.comprariaojogo">
-                                                <label class="form-check-label"
-                                                    :style="'font-size: xx-large; color:'+ metrica.cor "
-                                                    :for="'comprariaojogo'+metrica.valor"><i
-                                                        :class="metrica.descricao"></i></label>
+                                        <div class="p-2 text-center">
+                                            <h5>Eu compraria o jogo:</h5>
+                                            <div class="dlk-radio btn-group">
+                                                <label v-for="metrica in mertricas" class="btn btn-default btn-sm"
+                                                    :style="'font-size: xx-large; background-color:'+ metrica.cor ">
+                                                    <input :id="'comprariaojogo'+metrica.valor" class="form-control"
+                                                        type="radio" :value="metrica.valor"
+                                                        v-model="feedback.comprariaojogo">
+                                                    <i :class="metrica.descricao"></i>
+                                                </label>
                                             </div>
                                         </div>
                                     </div>
