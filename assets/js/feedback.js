@@ -33,7 +33,11 @@ var myApp = new Vue({
         };
         const result = await appwebmanager.saveFeedback(payload);
         if(result.status){
-
+            appwebmanager.openMessage("success", "Muito obrigado, feedback recebido");
+            this.pardidaInfo.status = 1;
+            this.pardidaInfo.mensagem = "Muito obrigado, feedback recebido";
+        }else{
+            appwebmanager.openMessage("error", result.mensagem);
         }
       },
       

@@ -22,6 +22,7 @@ class Boardgame {
         this.tabletopiaSenha = "";
         this.estagio = "";
         this.imagens = [];
+        this.sellsheet= new sellsheet();
         this.user = "";
     }
 
@@ -49,6 +50,15 @@ class Boardgame {
         this.estagio = item.estagio;
         this.imagens = item.imagens==""?[]:item.imagens;
         this.user = item.user;
+        
+        let ss = new sellsheet();
+        if(typeof item.sellsheet != "undefined" )
+            ss.loadJson(item.sellsheet)
+
+        this.sellsheet= ss;
+
+
+
     }
 
     addComponente() {
@@ -139,6 +149,52 @@ class Feedback{
         this.observacao= "";
     }
 }
+class sellsheet{
+    constructor() {
+        this.fraseefeito= "";
+        this.imgtopo= "";
+        this.pontosfortes=[];
+        this.gancho= "";
+        this.premissa= "";
+        this.imagens= [];
+    }
+
+    loadJson(item){
+        this.fraseefeito = item.fraseefeito;
+        this.pontosfortes= item.pontosfortes;
+        this.gancho= item.gancho;
+        this.premissa= item.premissa;
+        this.imagens= item.imagens;
+    }
+
+    addPontosfortes() {
+        this.pontosfortes.push(new Pontosfortes());
+    }
+
+    dropPontosfortes(index) {
+        this.pontosfortes.splice(index, 1);
+    }
+    addImagem() {
+        this.imagens.push(new imagem());
+    }
+
+    dropImagem(index) {
+        this.imagens.splice(index, 1);
+    }
+}
+
+class Pontosfortes{
+    constructor() {
+        this.item="";
+    }
+}
+
+
+var Estagios=[
+    "Inicial",
+    "Intermediario",
+    "Finalizado"
+]
 
 var mertricas=[
     {valor:1, descricao:"far fa-angry" , cor:'#b03b21'},

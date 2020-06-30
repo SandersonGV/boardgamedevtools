@@ -5,15 +5,144 @@
     <title>Boardgame Dev Tools - sellsheet</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/sellsheet.css">
     <link rel="stylesheet" href="assets/css/geral.css">
     <style>
+        @media screen {
+            .folha {
+                box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+                margin-top: 3rem !important;
+                margin-bottom: 3rem !important;
+                margin-left: 15rem !important;
+                margin-right: 15rem !important;
+                border: 0 !important;
+                background-color: white;
+                padding: 20mm;
+            }
+        }
 
+        @media print {
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
+            .folha {
+                margin: 0 !important;
+                box-shadow: 0 !important;
+
+            }
+        }
     </style>
 </head>
 
 <body>
-    
+    <div class="container-fluid " id="app">
+        <div class="folha">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="jumbotron">
+                        <h2>
+                            {{objBoardgame.titulo}}
+                        </h2>
+                        <p>
+                            {{objBoardgame.sellsheet.fraseefeito}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2>
+                                O gancho
+                            </h2>
+                            <p>
+                                {{objBoardgame.sellsheet.gancho}}
+                            </p>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2>
+                                A Premissa
+                            </h2>
+                            <p>
+                                {{objBoardgame.sellsheet.gancho}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <i class="fas fa-birthday-cake fa-2x"></i>
+                                <p>
+                                    {{objBoardgame.idadeMinima}} anos
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <i class="	fas fa-users fa-2x"></i>
+                                <p>
+                                    {{objBoardgame.jogadoresDe}}{{objBoardgame.jogadoresAte==objBoardgame.jogadoresDe?"": "-"+objBoardgame.jogadoresAte }}
+                                    jogadores
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <i class="	far fa-clock fa-2x"></i>
+                                <p>
+                                    {{objBoardgame.duracaoMedia}} min
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2>
+                                Pontos fortes
+                            </h2>
+                            <ul>
+                                <li v-for=" item in objBoardgame.sellsheet.pontosfortes">{{item.item}}</li>
+                            </ul>
+                            <h2>
+                                Componentes
+                            </h2>
+                            <ul>
+                                <li v-for=" item in objBoardgame.componentes">{{item.quantidade}} {{item.tipo}}
+                                    ({{item.tamanho}})</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class=" row d-flex flex-wrap">
+                        <div class="p-2" v-for="img in objBoardgame.sellsheet.imagens">
+                            <img height="250px" onerror="appmanager.imgError(this)" v-bind:src="img.url">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>
+                        Contato
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js "
@@ -26,6 +155,10 @@
     integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI "
     crossorigin="anonymous "></script>
 <script src="https://cdn.jsdelivr.net/npm/vue "></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js "></script>
+<script src="assets/js/boardgame.js"></script>
+<script src="assets/js/appManager.js"></script>
+<script src="assets/js/sellsheet.js"></script>
 
 </html>

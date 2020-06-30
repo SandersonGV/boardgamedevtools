@@ -193,14 +193,14 @@
                                         </div>
                                         <div class="row border p-2 m-2 ">
                                             <div class="col">
-                                            <div class=" row"><strong>Imagens</strong></div>
-                                            <div class=" row d-flex flex-wrap">
-                                                <div class="p-2" v-for="img in boardgame.imagens">
-                                                    <img height="150px" onerror="appmanager.imgError(this)"
-                                                        v-bind:src="img.url">
+                                                <div class=" row"><strong>Imagens</strong></div>
+                                                <div class=" row d-flex flex-wrap">
+                                                    <div class="p-2" v-for="img in boardgame.imagens">
+                                                        <img height="150px" onerror="appmanager.imgError(this)"
+                                                            v-bind:src="img.url">
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
                                         </div>
                                     </div>
                                 </div>
@@ -265,7 +265,9 @@
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <label>Estagio de desenvolvimento:</label>
-                                <input type="text" class="form-control" v-model="objBoardgame.estagio">
+                                <select class="form-control" v-model="objBoardgame.estagio">
+                                    <option v-for="item in Estagios">{{item}}</option>
+                                  </select>
                             </div>
                         </div>
                         <div class="row">
@@ -443,6 +445,106 @@
                                                     <td class="text-center">
                                                         <button class="btn btn-danger btn-sm"
                                                             v-on:click="objBoardgame.dropImagem(index)"><i
+                                                                class="fas fa-trash"></i></button>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control" v-model="imagem.url">
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        Sellsheet
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="form-group col-md-2 text-right">
+                                                Frase de efeito:
+                                            </div>
+                                            <div class="form-group col-md-10">
+                                                <input type="text" class="form-control"
+                                                    v-model="objBoardgame.sellsheet.fraseefeito">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-2 text-right">
+                                                Url imagem topo:
+                                            </div>
+                                            <div class="form-group col-md-10">
+                                                <input type="text" class="form-control"
+                                                    v-model="objBoardgame.sellsheet.imgtopo">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-2 text-right">
+                                                Gancho:
+                                            </div>
+                                            <div class="form-group col-md-10">
+                                            
+                                <textarea class="form-control" rows="4" v-model="objBoardgame.sellsheet.gancho"></textarea>
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-2 text-right">
+                                                Premissa:
+                                            </div>
+                                            <div class="form-group col-md-10">
+                                <textarea class="form-control" rows="4" v-model="objBoardgame.sellsheet.premissa"></textarea>
+
+                                             
+                                            </div>
+                                        </div>
+                                        <table class="table table-borderless table-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th width="1%">
+                                                        
+                                                    </th>
+                                                    <th>Pontos fortes
+                                                        <button class="btn btn-info btn-sm float-right"
+                                                            v-on:click="objBoardgame.sellsheet.addPontosfortes()"><i
+                                                                class="fas fa-plus"></i></button>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(pontoforte,index) in objBoardgame.sellsheet.pontosfortes">
+                                                    <td class="text-center">
+                                                        <button class="btn btn-danger btn-sm"
+                                                            v-on:click="objBoardgame.sellsheet.dropPontosfortes(index)"><i
+                                                                class="fas fa-trash"></i></button>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control" v-model="pontoforte.item">
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <table class="table table-borderless table-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th width="1%">
+                                                    </th>
+                                                    <th>URL Imagens  <button class="btn btn-info btn-sm float-right"
+                                                        v-on:click="objBoardgame.sellsheet.addImagem()"><i
+                                                            class="fas fa-plus"></i></button></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(imagem,index) in objBoardgame.sellsheet.imagens">
+                                                    <td class="text-center">
+                                                        <button class="btn btn-danger btn-sm"
+                                                            v-on:click="objBoardgame.sellsheet.dropImagem(index)"><i
                                                                 class="fas fa-trash"></i></button>
                                                     </td>
                                                     <td>
