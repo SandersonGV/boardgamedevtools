@@ -189,6 +189,43 @@ class Pontosfortes{
     }
 }
 
+class Perfil{
+    constructor() {
+        this._id = "";
+        this.email= "";
+        this.email_verified = false;
+        this.picture = "";
+        this.nickname = "";
+        this.redessociais = [];
+        this.emailcontato = "";
+    }
+
+    loadJson(item){
+        this._id = item._id;
+        this.email= item.email;
+        this.picture= item.picture;
+        this.email_verified = item.email_verified;
+        this.nickname = item.nickname;
+        this.redessociais = typeof item.redessociais!= "object"? [] :item.redessociais;
+        this.emailcontato = item.emailcontato;
+    }
+
+    addRedeSocial() {
+        this.redessociais.push(new Redessociais());
+    }
+
+    dropRedeSocial(index) {
+        this.redessociais.splice(index, 1);
+    }
+  
+}
+
+class Redessociais{
+    constructor() {
+        this.nome="";
+        this.url="";
+    }
+}
 
 var Estagios=[
     "Inicial",

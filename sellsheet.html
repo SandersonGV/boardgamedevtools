@@ -14,11 +14,11 @@
                 box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
                 margin-top: 3rem !important;
                 margin-bottom: 3rem !important;
-                margin-left: 15rem !important;
-                margin-right: 15rem !important;
+                margin-left: 6rem !important;
+                margin-right: 6rem !important;
                 border: 0 !important;
                 background-color: white;
-                padding: 20mm;
+                padding: 12mm;
             }
         }
 
@@ -43,9 +43,9 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="jumbotron">
-                        <h2>
+                        <h1>
                             {{objBoardgame.titulo}}
-                        </h2>
+                        </h1>
                         <p>
                             {{objBoardgame.sellsheet.fraseefeito}}
                         </p>
@@ -56,9 +56,9 @@
                 <div class="col-md-8">
                     <div class="row">
                         <div class="col-md-12">
-                            <h2>
+                            <h4>
                                 O gancho
-                            </h2>
+                            </h4>
                             <p>
                                 {{objBoardgame.sellsheet.gancho}}
                             </p>
@@ -67,9 +67,9 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <h2>
+                            <h4>
                                 A Premissa
-                            </h2>
+                            </h4>
                             <p>
                                 {{objBoardgame.sellsheet.gancho}}
                             </p>
@@ -106,15 +106,15 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <h2>
+                            <h4>
                                 Pontos fortes
-                            </h2>
+                            </h4>
                             <ul>
                                 <li v-for=" item in objBoardgame.sellsheet.pontosfortes">{{item.item}}</li>
                             </ul>
-                            <h2>
+                            <h4>
                                 Componentes
-                            </h2>
+                            </h4>
                             <ul>
                                 <li v-for=" item in objBoardgame.componentes">{{item.quantidade}} {{item.tipo}}
                                     ({{item.tamanho}})</li>
@@ -135,9 +135,12 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    <h2>
+                    <h4>
                         Contato
-                    </h2>
+                    </h4>
+                    <div><strong>email:</strong></div>
+                    <div><strong>telefone:</strong></div>
+                    <div><strong>social:</strong></div>
                 </div>
             </div>
         </div>

@@ -51,6 +51,18 @@ var myApp = new Vue({
                 return item.idadeMinima < 10;
             });
 
+            var jogosInical = this.baseBoardgameList.filter(item => {
+                return item.estagio == Estagios[0];
+            });
+
+            var jogosIntermediario = this.baseBoardgameList.filter(item => {
+                return item.estagio == Estagios[1];
+            });
+
+            var jogosFinal = this.baseBoardgameList.filter(item => {
+                return item.estagio == Estagios[2];
+            });
+
             this.infos.push(
                 { titulo: 'Todos os jogos', valor: this.baseBoardgameList.length, cor: '#cf9c11', icon: "fas fa-box", },
                 { titulo: 'Jogos no tabletopia', valor: jogosTabletopia.length, cor: '#0e46ad', icon: "fas fa-desktop", },
@@ -58,6 +70,9 @@ var myApp = new Vue({
                 { titulo: 'Jogos para 2 ', valor: jogosDoisjogadores.length, cor: '#7611cf', icon: "fas fa-user-friends",  },
                 { titulo: 'Jogos para crianças', valor: jogosInfantil.length, cor: '#cf1199', icon: "fas fa-child",  },
                 { titulo: 'Jogos com manual', valor: jogosComManual.length, cor: '#20ad0e', icon: "fas fa-scroll",  },
+                { titulo: 'Jogos em estagio Inicial', valor: jogosInical.length, cor: '#18b878', icon: "far fa-lightbulb",  },
+                { titulo: 'Jogos em estagio Intermediario', valor: jogosIntermediario.length, cor: '#1845b8', icon: "fas fa-sliders-h",  },
+                { titulo: 'Jogos em estagio Final', valor: jogosFinal.length, cor: '#722a7a', icon: "fas fa-box",  },
             );
             this.status =0;
         },

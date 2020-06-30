@@ -14,7 +14,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-lg navbar-light bg-light static-top mb-5 shadow">
             <div class="container">
-                <a class="navbar-brand" href="#"> <i class="fas fa-box"></i>Boardgame dev tools</a>
+                <a class="navbar-brand"><i class="fas fa-box"></i>Boardgame dev tools</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                     aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -26,20 +26,27 @@
                                 <i class="fas fa-columns"></i> Home
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item active">
                             <a class="nav-link" href="boardgames.html">
                                 <i class="fas fa-stream"></i> Boardgames
+
                             </a>
                         </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="perfil.html">
-                                <i class="fas fa-user"></i> Meu Perfil
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img :src="appmanager.profile.picture" class="rounded-circle" width="30px"
+                                    height="30px">
+                                {{appmanager.profile.nickname}}
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/" onclick="appmanager.authOut()">
-                                <i class="fas fa-sign-out-alt"></i> Sair
-                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="/perfil.html" onclick="appmanager.authOut()">
+                                    <i class="fas fa-user-circle"></i> Meu perfil
+                                </a>
+                                <a class="dropdown-item" href="/" onclick="appmanager.authOut()">
+                                    <i class="fas fa-sign-out-alt"></i> Sair
+                                </a>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -51,17 +58,75 @@
             <div class="card border-0 shadow my-5">
                 <div class="card-body p-5">
                     <h1 class="font-weight-light">Meu perfil </h1>
-                    <div class="card mb-3" >
+                    <div class="card mb-3">
                         <div class="row no-gutters">
                             <div class="col-md-4">
-                                <img src="asd" class="card-img" onerror="appmanager.imgError(this)">
+                                <img :src="perfil.picture" class="card-img" onerror="appmanager.imgError(this)">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <p class="card-text">This is a wider card with supporting text below as a natural
-                                        lead-in to additional content. This content is a little bit longer.</p>
-                                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                    <h5 class="card-title">{{perfil.nickname}}</h5>
+
+                                    <div class="row">
+                                        <div class="form-group col-md-3 text-right">
+                                            Email:
+                                        </div>
+                                        <div class="form-group col-md-9">
+                                            {{perfil.email}}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-3 text-right">
+                                            Telefone:
+                                        </div>
+                                        <div class="form-group col-md-9">
+                                            <input type="text" class="form-control" v-model="perfil.telefone">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-3 text-right">
+                                            Email contato:
+                                        </div>
+                                        <div class="form-group col-md-9">
+                                            <input type="text" class="form-control" v-model="perfil.emailcontato">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    Redes Sociais
+                                                    <button class="btn btn-info btn-sm float-right"
+                                                        @click="perfil.addRedeSocial()">
+                                                        <i class="fas fa-plus"></i></button>
+                                                </div>
+                                                <div class="card-body">
+                                                    <table v-if="perfil.redessociais.length > 0">
+                                                        <thead>
+                                                            <th>Nome</th>
+                                                            <th>url</th>
+                                                            <th width="1%"></th>
+                                                        </thead>
+                                                        <tr v-for="(rede,index) in perfil.redessociais">
+                                                            <td>
+                                                                <input type="text" class="form-control"
+                                                                    v-model="rede.nome">
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control"
+                                                                    v-model="rede.url">
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <button class="btn btn-danger btn-sm"
+                                                                    v-on:click="perfil.dropRedeSocial(index)"><i
+                                                                        class="fas fa-trash"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -86,6 +151,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue "></script>
     <script src="https://kit.fontawesome.com/a076d05399.js "></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="assets/js/boardgame.js"></script>
     <script src="assets/js/appManager.js"></script>
     <script src="assets/js/perfil.js"></script>
 

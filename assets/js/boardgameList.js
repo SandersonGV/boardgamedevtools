@@ -127,6 +127,24 @@ var myApp = new Vue({
                     });
                     this.titulo = "jogos com manual";
                     break;
+                case 6:
+                    this.boardgames == this.baseBoardgameList.filter(item => {
+                        return (item.estagio == Estagios[0]);
+                    });
+                    this.titulo = "Jogos em estagio Inicial";
+                    break;
+                case 7:
+                    this.boardgames == this.baseBoardgameList.filter(item => {
+                        return (item.estagio == Estagios[1]);
+                    });
+                    this.titulo = "Jogos em estagio Intermediario";
+                    break;
+                case 8:
+                    this.boardgames == this.baseBoardgameList.filter(item => {
+                        return (item.estagio == Estagios[2]);
+                    });
+                    this.titulo = "Jogos em estagio Final";
+                    break;
                 default:
                     this.boardgames = this.baseBoardgameList;
                     this.titulo = 'Todos os jogos';
