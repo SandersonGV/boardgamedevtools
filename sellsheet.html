@@ -35,15 +35,112 @@
                 height: 1570px;
             }
         }
+
+        .textbox {
+            padding: 10px;
+        }
     </style>
 </head>
 
 <body>
     <div class="container-fluid " id="app">
         <div class="card folha border-0 ">
+            <div class="card-body">
+                <div class="row border" style="height: 40%;">
+                    <div class="col-10 border" style="height: 100%;">
+                        <img src="https://via.placeholder.com/1000/?text=imagem+1"
+                            style="height: inherit;width: inherit;">
+                    </div>
+                    <div class="row border">
+                        <div class="col">
+                            <div class="row border" style="height: 20%;">
+                                <div class="text-center">
+                                    <i class="fas fa-birthday-cake fa-2x"></i>
+                                    <p>
+                                        {{objBoardgame.idadeMinima}} anos
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row border " style="height: 20%;">
+                                <div class="text-center">
+                                    <i class="	fas fa-users fa-2x"></i>
+                                    <p>
+                                        {{objBoardgame.jogadoresDe}}{{objBoardgame.jogadoresAte==objBoardgame.jogadoresDe?"": "-"+objBoardgame.jogadoresAte }}
+                                        jogadores
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row border " style="height: 20%;">
+                                <div class="text-center">
+                                    <i class="	far fa-clock fa-2x"></i>
+                                    <p>
+                                        {{objBoardgame.duracaoMedia}} min
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row border" style="height: 6%;">
+                    <div class="col-12 border">
+                    </div>
+                </div>
+                <div class="row border" style="height: 27%;">
+                    <div class="col-6 border" style="height: 100%;">
+                        <img src="https://via.placeholder.com/300/?text=imagem+2"
+                            style="height: inherit;width: inherit;">
+
+                    </div>
+                    <div class="col-6 border textbox">
+                        <div class="col-md-12">
+                            <h4>
+                                Pontos fortes
+                            </h4>
+                            <ul>
+                                <li v-for=" item in objBoardgame.sellsheet.pontosfortes">{{item.item}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row border" style="height: 27%;">
+                    <div class="col-6 border textbox">
+                        <div class="col-md-12">
+                            <h4>
+                                Componentes
+                            </h4>
+                            <ul>
+                                <li v-for=" item in objBoardgame.componentes">{{item.quantidade}}
+                                    {{item.tipo}}
+                                    ({{item.tamanho}})</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-6 border" style="height: 100%;">
+                        <img src="https://via.placeholder.com/300/?text=imagem+3"
+                            style="height: inherit;width: inherit;">
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-footer bg-white border-0 " style="height: 10%;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>
+                            Contato
+                        </h4>
+                        <div><strong>email:</strong> {{perfil.emailcontato}}</div>
+                        <div><strong>telefone:</strong> {{perfil.telefone}}</div>
+                        <span v-for="social in perfil.redessociais"><strong>{{social.nome}}:</strong>
+                            {{social.url}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card folha border-0 ">
             <div class="card-header bg-white border-0" style="height: 20%;">
-                <img height="300px" src="https://i.pinimg.com/originals/11/1c/71/111c71980460c872c04879d12e45667c.jpg"
-                    class="card-img" alt="...">
+                <img height="300px" src="https://via.placeholder.com/500x300/?text=game+logo" class="card-img"
+                    alt="...">
                 <div class="card-img-overlay">
                 </div>
             </div>
@@ -89,7 +186,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row"  style="height: 42%; background-color: rgb(39, 145, 83)">
+                        <div class="row" style="height: 42%; background-color: rgb(39, 145, 83)">
                             <div class="col-md-12">
                                 <h4>
                                     Pontos fortes
@@ -99,13 +196,14 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="row"  style="height: 42%; background-color: rgb(131, 57, 49)">
+                        <div class="row" style="height: 42%; background-color: rgb(131, 57, 49)">
                             <div class="col-md-12">
                                 <h4>
                                     Componentes
                                 </h4>
                                 <ul>
-                                    <li v-for=" item in objBoardgame.componentes">{{item.quantidade}} {{item.tipo}}
+                                    <li v-for=" item in objBoardgame.componentes">{{item.quantidade}}
+                                        {{item.tipo}}
                                         ({{item.tamanho}})</li>
                                 </ul>
                             </div>
@@ -130,7 +228,8 @@
                         </h4>
                         <div><strong>email:</strong> {{perfil.emailcontato}}</div>
                         <div><strong>telefone:</strong> {{perfil.telefone}}</div>
-                        <span v-for="social in perfil.redessociais"><strong>{{social.nome}}:</strong> {{social.url}}
+                        <span v-for="social in perfil.redessociais"><strong>{{social.nome}}:</strong>
+                            {{social.url}}
                         </span>
                     </div>
                 </div>
