@@ -1,15 +1,15 @@
 var myApp = new Vue({
   el: '#app',
   data: {
-    myAuth: {},
     objBoardgame: {},
     bgid: "",
-    partidas: [],
-    objPartida: {},
-    statusList: 99,
+    perfil: {},
+    status: 99,
   },
   created: async function () {
-    this.myAuth = appmanager.auth();
+    appmanager.auth();
+    this.perfil = new Perfil();
+    this.perfil.loadJson(appmanager.profile);
 
     this.objBoardgame = new Boardgame();
     const params = new URLSearchParams(window.location.search)
@@ -24,8 +24,21 @@ var myApp = new Vue({
     this.jsonToObjBoardgame(bgs);
   },
   mounted: function () {
+    this.getProfile();
   },
   methods: {
+    getProfile: async function (auth) {
+      const result = await appmanager.getProfile(appmanager.profile.userid);
+
+      if (result.status) {
+          this.perfil.userid = appmanager.profile.userid;
+          if (result.json.length == 1) {
+              this.perfil.loadJson(result.json[0]);
+          }
+      }
+
+      this.status = 0;
+  },
     jsonToObjBoardgame: function (stringJson) {
       let loadobj = stringJson;
       for (const item of loadobj) {

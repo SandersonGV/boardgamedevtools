@@ -56,23 +56,39 @@
         <!-- Page Content -->
         <div class="container">
             <div class="card border-0 shadow my-5">
-                <div class="card-body p-5">
+                <div class="card-header">
+
                     <h1 class="font-weight-light">Meu perfil </h1>
-                    <div class="card mb-3">
+                </div>
+                <div class="card-body p-5">
+                    <div  v-if="status==0" class="card border-0 mb-3">
                         <div class="row no-gutters">
                             <div class="col-md-4">
-                                <img :src="perfil.picture" class="card-img" onerror="appmanager.imgError(this)">
+                                <img :src="appmanager.profile.picture" class="card-img rounded-circle"
+                                    onerror="appmanager.imgError(this)">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
-                                    <h5 class="card-title">{{perfil.nickname}}</h5>
-
+                                    <button class="btn btn-success btn-sm float-right" @click="saveProfile()">
+                                        <i class="fas fa-file"> </i> Salvar
+                                    </button>
+                                    <h5 class="card-title">{{appmanager.profile.nickname}}</h5>
+                                    
                                     <div class="row">
                                         <div class="form-group col-md-3 text-right">
                                             Email:
                                         </div>
                                         <div class="form-group col-md-9">
-                                            {{perfil.email}}
+                                            {{appmanager.profile.email}}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-md-3 text-right">
+                                            Nome completo:
+                                        </div>
+                                        <div class="form-group col-md-9">
+                                            <input type="hidden" class="form-control" v-model="perfil._id">
+                                            <input type="text" class="form-control" v-model="perfil.nome">
                                         </div>
                                     </div>
                                     <div class="row">
@@ -104,7 +120,7 @@
                                                     <table v-if="perfil.redessociais.length > 0">
                                                         <thead>
                                                             <th>Nome</th>
-                                                            <th>url</th>
+                                                            <th width="65%">url</th>
                                                             <th width="1%"></th>
                                                         </thead>
                                                         <tr v-for="(rede,index) in perfil.redessociais">
@@ -131,9 +147,17 @@
                             </div>
                         </div>
                     </div>
+                    <div v-if="status == 99">
+                        <div class="text-center m-5">
+                            <div class="spinner-grow text-larger" role="status">
+                            </div>
+                            <h3>carregando...</h3>
+                        </div>
+                    </div>
+
+                    <div style="height: 100px "></div>
+                    <p class="lead mb-0 ">feito na casa do goblin!</p>
                 </div>
-                <div style="height: 300px "></div>
-                <p class="lead mb-0 ">feito na casa do goblin!</p>
             </div>
         </div>
     </div>

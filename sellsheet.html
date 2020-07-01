@@ -14,11 +14,12 @@
                 box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
                 margin-top: 3rem !important;
                 margin-bottom: 3rem !important;
-                margin-left: 6rem !important;
-                margin-right: 6rem !important;
+                margin: 0 auto;
                 border: 0 !important;
                 background-color: white;
-                padding: 12mm;
+                border: 1px black solid;
+                width: 1096px;
+                height: 1570px;
             }
         }
 
@@ -30,8 +31,8 @@
 
             .folha {
                 margin: 0 !important;
-                box-shadow: 0 !important;
-
+                width: 1096px;
+                height: 1570px;
             }
         }
     </style>
@@ -39,108 +40,99 @@
 
 <body>
     <div class="container-fluid " id="app">
-        <div class="folha">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="jumbotron">
-                        <h1>
-                            {{objBoardgame.titulo}}
-                        </h1>
-                        <p>
-                            {{objBoardgame.sellsheet.fraseefeito}}
-                        </p>
-                    </div>
+        <div class="card folha border-0 ">
+            <div class="card-header bg-white border-0" style="height: 20%;">
+                <img height="300px" src="https://i.pinimg.com/originals/11/1c/71/111c71980460c872c04879d12e45667c.jpg"
+                    class="card-img" alt="...">
+                <div class="card-img-overlay">
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h4>
-                                O gancho
-                            </h4>
-                            <p>
-                                {{objBoardgame.sellsheet.gancho}}
-                            </p>
-
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h4>
-                                A Premissa
-                            </h4>
+            <div class="card-body">
+                <div class="row" style="height: 70%;">
+                    <div class="col-8" style="height: 100%;">
+                        <div class="row" style="height: 50%; background-color: chocolate;">
                             <p>
                                 {{objBoardgame.sellsheet.gancho}}
                             </p>
                         </div>
+                        <div class="row" style="height: 50%; background-color: yellowgreen;">
+                            <p>
+                                {{objBoardgame.sellsheet.premissa}}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-4" style="height: 100%;;">
+                        <div class="row" style="height: 16%; background-color: salmon">
+                            <div class="col-md-4">
+                                <div class="text-center">
+                                    <i class="fas fa-birthday-cake fa-2x"></i>
+                                    <p>
+                                        {{objBoardgame.idadeMinima}} anos
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="text-center">
+                                    <i class="	fas fa-users fa-2x"></i>
+                                    <p>
+                                        {{objBoardgame.jogadoresDe}}{{objBoardgame.jogadoresAte==objBoardgame.jogadoresDe?"": "-"+objBoardgame.jogadoresAte }}
+                                        jogadores
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="text-center">
+                                    <i class="	far fa-clock fa-2x"></i>
+                                    <p>
+                                        {{objBoardgame.duracaoMedia}} min
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row"  style="height: 42%; background-color: rgb(39, 145, 83)">
+                            <div class="col-md-12">
+                                <h4>
+                                    Pontos fortes
+                                </h4>
+                                <ul>
+                                    <li v-for=" item in objBoardgame.sellsheet.pontosfortes">{{item.item}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row"  style="height: 42%; background-color: rgb(131, 57, 49)">
+                            <div class="col-md-12">
+                                <h4>
+                                    Componentes
+                                </h4>
+                                <ul>
+                                    <li v-for=" item in objBoardgame.componentes">{{item.quantidade}} {{item.tipo}}
+                                        ({{item.tamanho}})</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="text-center">
-                                <i class="fas fa-birthday-cake fa-2x"></i>
-                                <p>
-                                    {{objBoardgame.idadeMinima}} anos
-                                </p>
+                <div class="row" style="height: 30%; background-color: pink;">
+                    <div class="col-md-12">
+                        <div class=" row d-flex flex-wrap">
+                            <div class="p-2" v-for="img in objBoardgame.sellsheet.imagens">
+                                <img height="250px" onerror="appmanager.imgError(this)" v-bind:src="img.url">
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="text-center">
-                                <i class="	fas fa-users fa-2x"></i>
-                                <p>
-                                    {{objBoardgame.jogadoresDe}}{{objBoardgame.jogadoresAte==objBoardgame.jogadoresDe?"": "-"+objBoardgame.jogadoresAte }}
-                                    jogadores
-                                </p>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="text-center">
-                                <i class="	far fa-clock fa-2x"></i>
-                                <p>
-                                    {{objBoardgame.duracaoMedia}} min
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h4>
-                                Pontos fortes
-                            </h4>
-                            <ul>
-                                <li v-for=" item in objBoardgame.sellsheet.pontosfortes">{{item.item}}</li>
-                            </ul>
-                            <h4>
-                                Componentes
-                            </h4>
-                            <ul>
-                                <li v-for=" item in objBoardgame.componentes">{{item.quantidade}} {{item.tipo}}
-                                    ({{item.tamanho}})</li>
-                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class=" row d-flex flex-wrap">
-                        <div class="p-2" v-for="img in objBoardgame.sellsheet.imagens">
-                            <img height="250px" onerror="appmanager.imgError(this)" v-bind:src="img.url">
-                        </div>
+            <div class="card-footer bg-white border-0 " style="height: 10%;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>
+                            Contato
+                        </h4>
+                        <div><strong>email:</strong> {{perfil.emailcontato}}</div>
+                        <div><strong>telefone:</strong> {{perfil.telefone}}</div>
+                        <span v-for="social in perfil.redessociais"><strong>{{social.nome}}:</strong> {{social.url}}
+                        </span>
                     </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <h4>
-                        Contato
-                    </h4>
-                    <div><strong>email:</strong></div>
-                    <div><strong>telefone:</strong></div>
-                    <div><strong>social:</strong></div>
                 </div>
             </div>
         </div>

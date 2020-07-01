@@ -192,20 +192,18 @@ class Pontosfortes{
 class Perfil{
     constructor() {
         this._id = "";
-        this.email= "";
-        this.email_verified = false;
-        this.picture = "";
-        this.nickname = "";
+        this.userid = "";
+        this.telefone = "";
+        this.nome = "";
         this.redessociais = [];
         this.emailcontato = "";
     }
 
     loadJson(item){
         this._id = item._id;
-        this.email= item.email;
-        this.picture= item.picture;
-        this.email_verified = item.email_verified;
-        this.nickname = item.nickname;
+        this.userid = item.userid;
+        this.nome = item.nome;
+        this.telefone= item.telefone;
         this.redessociais = typeof item.redessociais!= "object"? [] :item.redessociais;
         this.emailcontato = item.emailcontato;
     }

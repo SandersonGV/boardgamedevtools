@@ -16,6 +16,7 @@ appmanager.auth = () => {
 
     appmanager.appkey = isAuth;
     appmanager.profile = profile;
+    appmanager.profile.userid = profile.sub.split('|')[1];
     return isAuth;
 }
 
@@ -149,6 +150,53 @@ appmanager.dropPartida = async (partida) => {
     let json = await appmanager.request(url, obj);
     return json;
 }
+
+//user
+appmanager.getProfile = async (userid) => {
+    let url = 'https://boardgamelibrary-36a8.restdb.io/rest/profile?q={"userid":"'+userid+'"}&max=1';
+    var obj = {
+        method: 'GET',
+        headers: {
+            "content-type": "application/json",
+            'Authorization': "Bearer " + appmanager.appkey
+        }
+    };
+    let result = await appmanager.request(url, obj);
+    return result;
+}
+
+appmanager.setProfile = async (profile) => {
+    delete profile._id;
+    let url = 'https://boardgamelibrary-36a8.restdb.io/rest/profile';
+    let data = JSON.stringify(profile);
+    let obj = {
+        method: 'POST',
+        headers: {
+            "content-type": "application/json",
+            'Authorization': "Bearer " + appmanager.appkey
+        },
+        body: data,
+    };
+    let json = await appmanager.request(url, obj);
+    return json;
+}
+
+appmanager.putProfile = async (profile) => {
+    let url = 'https://boardgamelibrary-36a8.restdb.io/rest/profile/' + profile._id;
+    let data = JSON.stringify(profile);
+    let obj = {
+        method: 'PUT',
+        headers: {
+            "content-type": "application/json",
+            'Authorization': "Bearer " + appmanager.appkey
+        },
+        body: data,
+    };
+
+    let json = await appmanager.request(url, obj);
+    return json;
+}
+
 
 appmanager.request = async (url, option) => {
     const response = await fetch(url, option);
